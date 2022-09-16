@@ -10,4 +10,8 @@ public class IndexController {
     public String home(){
         return "index";
     }
+    @GetMapping("/datatable")
+    public String datatable(){
+        return "datatable";
+    }
 }

@@ -7,10 +7,4 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 @Controller
 public class MemberController {
-    private final MemberService memberService;
-
-    @GetMapping("/datatable")
-    public String member(){
-        return "datatable";
-    }
 }

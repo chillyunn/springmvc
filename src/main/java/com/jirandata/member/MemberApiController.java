@@ -1,8 +1,10 @@
 package com.jirandata.member;
 
+import com.jirandata.member.dtos.MemberSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -20,7 +22,12 @@ public class MemberApiController {
         Map<String, Object> map = new HashMap<>();
         map.put("data", data);
         return map;
+    }
+    @PostMapping("/api/member")
+    public void save(@RequestBody MemberSaveRequestDto requestDto){
 
 
+
+//        return memberService.save(requestDto);
     }
 }

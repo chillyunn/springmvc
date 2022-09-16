@@ -18,7 +18,10 @@ $(document).ready(function () {
     });
     $('#datatable tbody').on('click','tr',function (){
         const row = $('#datatable').DataTable().row($(this)).data();
-        alert(row.id);
+        $('#memberUpdateModal').modal('show',function (){
+            modal.find('.modal-body #memberId').text(row.memberId);
+        });
+
     });
     $(function (){
         $("#insertRow").on("click",function (){
@@ -27,4 +30,21 @@ $(document).ready(function () {
     })
 
 
+    $(function (){
+        $("#c_confirm").on('click',function (){
+            $.ajax({
+                type:"POST",
+                contentType:'application/json',
+                url:"/api/member",
+                data:{
+                    memberId: $("c_memberId").val(),
+                    name: $("c_name").val(),
+                    password: $("c_password").val(),
+                    department: $("c_department").val(),
+                    position: $("c_position").val(),
+                    region: $("c_region").val()
+                },
+            });
+        })
+    })
 });

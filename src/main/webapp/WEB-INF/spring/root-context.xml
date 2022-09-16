@@ -38,7 +38,7 @@
         <property name="password" value="${jdbc.password}"/>
     </bean>
     <!--    Transaction 설정-->
-    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 </beans>

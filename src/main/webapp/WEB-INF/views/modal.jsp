@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
 <head>
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>모달 연습</title>
     <link rel="stylesheet" href="plugin/bootstrap-5.2.0/bootstrap.min.css">
@@ -17,6 +18,7 @@
     <script defer src="plugin/bootstrap-5.2.0/bootstrap.min.js"></script>
     <%--    modal.js--%>
     <script defer src="js/modal.js"></script>
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100 h-100">
 <style>

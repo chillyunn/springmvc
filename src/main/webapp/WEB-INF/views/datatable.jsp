@@ -18,8 +18,7 @@
     <script defer src="plugin/DataTables-1.12.1/dataTables.bootstrap5.min.js"></script>
     <script defer src="plugin/bootstrap-5.2.0/bootstrap.min.js"></script>
     <script defer src="js/datatable.js"></script>
-
-
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100 h-100">
 <%@ include file="/WEB-INF/views/common/header.jsp" %>

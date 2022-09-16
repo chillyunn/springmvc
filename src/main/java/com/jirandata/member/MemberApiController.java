@@ -1,5 +1,6 @@
 package com.jirandata.member;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jirandata.member.dtos.MemberSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,7 +16,7 @@ import java.util.Map;
 @RestController
 public class MemberApiController {
     private final MemberService memberService;
-
+    ObjectMapper objectMapper = new ObjectMapper();
     @PostMapping("/api/members")
     public Map<String,Object> findAll(){
         List<Member> data = memberService.findAll();
@@ -24,8 +25,8 @@ public class MemberApiController {
         return map;
     }
     @PostMapping("/api/member")
-    public void save(@RequestBody MemberSaveRequestDto requestDto){
-
+    public void save(@RequestBody Map<String,String> map){
+        System.out.println(map.get("name"));
 
 
 //        return memberService.save(requestDto);

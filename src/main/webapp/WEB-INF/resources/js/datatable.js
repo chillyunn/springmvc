@@ -32,17 +32,18 @@ $(document).ready(function () {
 
     $(function (){
         $("#c_confirm").on('click',function (){
+            console.log($("#c_name").val());
             $.ajax({
                 type:"POST",
                 contentType:'application/json',
                 url:"/api/member",
                 data:{
-                    memberId: $("c_memberId").val(),
-                    name: $("c_name").val(),
-                    password: $("c_password").val(),
-                    department: $("c_department").val(),
-                    position: $("c_position").val(),
-                    region: $("c_region").val()
+                    memberId: $("#c_memberId").val(),
+                    name: $("#c_name").val(),
+                    password: $("#c_password").val(),
+                    department: $("#c_department").val(),
+                    position: $("#c_position").val(),
+                    region: $("#c_region").val()
                 },
             });
         })

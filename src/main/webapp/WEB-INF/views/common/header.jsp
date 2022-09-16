@@ -22,7 +22,6 @@
         </li>
       </ul>
     </div>
-    <img src="images/ict.jpg" alt=""style="width: 12%" >
     <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapsed"
             data-bs-target="#navbarSupportContent" aria-controls="navbarSupportContent" aria-expanded="false">
     </button>

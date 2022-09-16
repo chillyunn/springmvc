@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MemberController {
     private final MemberService memberService;
 
-    @GetMapping
+    @GetMapping("/datatable")
     public String member(){
         return "datatable";
     }

@@ -15,7 +15,7 @@
     <script defer src="plugin/jquery-3.6.1/jquery-3.6.1.min.js"></script>
     <%--Bootstrap.js--%>
     <script defer src="plugin/bootstrap-5.2.0/bootstrap.min.js"></script>
-    <%--    index.js--%>
+    <%--    modal.js--%>
     <script defer src="js/modal.js"></script>
 </head>
 <body class="d-flex flex-column min-vh-100 h-100">

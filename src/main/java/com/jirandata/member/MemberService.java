@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class MemberService {
@@ -14,5 +16,9 @@ public class MemberService {
     @Transactional
     public Long save(MemberSaveRequestDto requestDto){
         return memberRepository.save(requestDto.toEntity()).getId();
+    }
+
+    public List<Member> findAll() {
+        return memberRepository.findAll();
     }
 }

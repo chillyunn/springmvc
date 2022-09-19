@@ -15,6 +15,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RestController
 public class MemberApiController {
+
     private final MemberService memberService;
     ObjectMapper objectMapper = new ObjectMapper();
     @PostMapping("/api/members")
@@ -25,7 +26,7 @@ public class MemberApiController {
         return map;
     }
     @PostMapping("/api/member")
-    public void save(@RequestBody Map<String,String> map){
+    public void save(@RequestBody MemberSaveRequestDto requestDto){
         System.out.println(map.get("name"));
 
 

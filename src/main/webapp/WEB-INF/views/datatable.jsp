@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>데이터테이블 페이지</title>
     <%--    CSS     --%>
     <link rel="stylesheet" href="plugin/bootstrap-5.2.0/bootstrap.min.css">
     <link rel="stylesheet" href="plugin/DataTables-1.12.1/dataTables.bootstrap5.min.css">

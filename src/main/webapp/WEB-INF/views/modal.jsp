@@ -10,7 +10,7 @@
 <head>
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>모달 연습</title>
+    <title>모달 페이지</title>
     <link rel="stylesheet" href="plugin/bootstrap-5.2.0/bootstrap.min.css">
     <%--jQuery library--%>
     <script defer src="plugin/jquery-3.6.1/jquery-3.6.1.min.js"></script>

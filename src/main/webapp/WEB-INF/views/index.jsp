@@ -9,7 +9,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>부트스트랩 연습</title>
+    <title>메인 페이지</title>
     <link rel="stylesheet" href="plugin/bootstrap-5.2.0/bootstrap.min.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>

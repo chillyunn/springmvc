@@ -25,6 +25,7 @@ public class MemberService {
         Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         log.info(member.toString());
         member.changeMember(requestDto);
+        memberRepository.save(member);
         return member;
     }
 

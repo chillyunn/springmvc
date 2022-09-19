@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //사용자 조회 로직
     const table = $('#datatable').DataTable({
-        pageLength: 3,
+        pageLength: 5,
         bLengthChange: false,
         ajax: {
             url: '/api/members',
@@ -49,7 +49,7 @@ $(document).ready(function () {
                     console.log(e);
                 },
                 success: function (){
-                    table.ajax.reload();
+                    table.ajax.reload(null,false);
                 }
             });
         })
@@ -57,12 +57,11 @@ $(document).ready(function () {
         //사용자 삭제 로직
         $("#delete").on('click',function (){
             const url = "/api/member/" +row.id;
-            console.log(url);
                 $.ajax({
                     type: "DELETE",
                     url:url,
                     success: function (){
-                        table.ajax.reload();
+                        table.ajax.reload(null,false);
                     }
                 });
         })
@@ -88,7 +87,7 @@ $(document).ready(function () {
                     console.log(e);
                 },
                 success: function (){
-                    table.ajax.reload();
+                    table.ajax.reload(null,false);
                 }
             });
         })

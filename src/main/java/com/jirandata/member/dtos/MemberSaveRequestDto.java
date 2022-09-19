@@ -34,4 +34,10 @@ public class MemberSaveRequestDto {
                 .region(region)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "MemberSaveRequestDTO{" + "memberId="+ memberId + "name=" + name + "password="+ password + "department="+department+
+                "position=" + position + "region="+  region + "}";
+    }
 }

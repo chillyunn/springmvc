@@ -37,7 +37,7 @@ public class MemberSaveRequestDto {
 
     @Override
     public String toString() {
-        return "MemberSaveRequestDTO{" + "memberId="+ memberId + "name=" + name + "password="+ password + "department="+department+
-                "position=" + position + "region="+  region + "}";
+        return "MemberSaveRequestDTO{" + "memberId="+ memberId + "  name=" + name + "   password="+ password + "   department="+department+
+                "   position=" + position + "  region="+  region + "}";
     }
 }

@@ -76,16 +76,26 @@
 </div>
 
 <div class="modal fade" id="memberUpdateModal" tabindex="-1" aria-labelledby="ModalLabel">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">사용자 수정</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body text-center">
+                <div class="d-flex justify-content-evenly m-0 fw-bold">
+                    <p class="m-0">아이디</p>
+                    <p class="m-0">이름</p>
+                    <p class="m-0">비밀번호</p>
+                </div>
                 <input type="text" id="memberId" placeholder="입력하세요">
                 <input type="text" id="name" placeholder="입력하세요">
                 <input type="text" id="password" placeholder="입력하세요">
+                <div class="d-flex justify-content-evenly m-0 fw-bold">
+                    <p class="m-0">부서</p>
+                    <p class="m-0">직위</p>
+                    <p class="m-0">거주지</p>
+                </div>
                 <input type="text" id="department" placeholder="입력하세요">
                 <input type="text" id="position" placeholder="입력하세요">
                 <input type="text" id="region" placeholder="입력하세요">

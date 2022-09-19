@@ -31,8 +31,6 @@ public class MemberApiController {
     @PostMapping(value = "/api/member")
     public void save(@RequestBody MemberSaveRequestDto requestDto){
         log.info(requestDto.toString());
-
-
-//        return memberService.save(requestDto);
+        memberService.save(requestDto);
     }
 }

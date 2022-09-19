@@ -33,20 +33,20 @@ $(document).ready(function () {
     $(function () {
         $("#c_confirm").on('click', function () {
 
-            const member = {
-                "memberId": $("#c_memberId").val(),
-                "name": $("#c_name").val(),
-                "password": $("#c_password").val(),
-                "department": $("#c_department").val(),
-                "position": $("#c_position").val(),
-                "region": $("#c_region").val()
-            };
+            let member = JSON.stringify({
+                memberId: $("#c_memberId").val(),
+                name: $("#c_name").val(),
+                password: $("#c_password").val(),
+                department: $("#c_department").val(),
+                position: $("#c_position").val(),
+                region: $("#c_region").val()
+            });
             console.log(member);
             $.ajax({
                 type: "POST",
                 contentType: 'application/json',
                 url: "/api/member",
-                data: JSON.stringify({member}),
+                data: member,
                 dataType:"json",
                 error: function (e){
                     console.log(e);

@@ -1,8 +1,10 @@
 package com.jirandata.member;
 
+import com.jirandata.member.dtos.MemberRequestDto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +13,7 @@ import javax.persistence.Id;
 
 @Getter
 @NoArgsConstructor
+@DynamicUpdate
 @Entity
 public class Member {
     @Id
@@ -23,19 +26,35 @@ public class Member {
     @Column(nullable = false)
     private String password;
     @Column(nullable = false)
+    private String department;
+    @Column(nullable = false)
     private String position;
     @Column(nullable = false)
     private String region;
-    @Column(nullable = false)
-    private String department;
+
 
     @Builder
-    public Member(String memberId, String name, String password, String position, String region, String department) {
+    public Member(String memberId, String name, String password, String department, String position, String region) {
         this.memberId = memberId;
         this.name = name;
         this.password = password;
+        this.department = department;
         this.position = position;
         this.region = region;
-        this.department = department;
+    }
+
+    public void changeMember(MemberRequestDto requestDto) {
+        this.memberId = requestDto.getMemberId();
+        this.name = requestDto.getName();
+        this.password = requestDto.getPassword();
+        this.department = requestDto.getDepartment();
+        this.position = requestDto.getPosition();
+        this.region = requestDto.getRegion();
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" + "id="+id+"  memberId="+ memberId + "  name=" + name + "   password="+ password + "   department="+department+
+                "   position=" + position + "  region="+  region + "}";
     }
 }

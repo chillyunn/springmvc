@@ -1,15 +1,10 @@
 package com.jirandata.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jirandata.member.dtos.MemberSaveRequestDto;
+import com.jirandata.member.dtos.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +23,17 @@ public class MemberApiController {
         map.put("data", data);
         return map;
     }
-    @PostMapping(value = "/api/member")
-    public void save(@RequestBody MemberSaveRequestDto requestDto){
+    @PostMapping( "/api/member")
+    public void save(@RequestBody MemberRequestDto requestDto){
         log.info(requestDto.toString());
         memberService.save(requestDto);
+    }
+    @PutMapping("/api/member/{id}")
+    public void update(@PathVariable Long id,@RequestBody MemberRequestDto requestDto){
+        log.info(memberService.update(id,requestDto).toString());
+    }
+    @DeleteMapping("/api/member/{id}")
+    public void delete(@PathVariable Long id){
+        memberService.delete(id);
     }
 }

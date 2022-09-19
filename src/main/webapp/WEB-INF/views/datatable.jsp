@@ -102,7 +102,8 @@
 
             </div>
             <div class="modal-footer">
-                <div type="button" id="confirm" class="btn btn-primary" data-bs-dismiss="modal">확인</div>
+                <div type="button" id="update" class="btn btn-primary" data-bs-dismiss="modal">확인</div>
+                <div type="button" id="delete" class="btn btn-danger" ata-bs-dismiss="modal">삭제</div>
                 <div type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</div>
             </div>
         </div>

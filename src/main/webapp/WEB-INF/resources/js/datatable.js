@@ -29,13 +29,15 @@ $(document).ready(function () {
         $('#position').attr('value',row.position);
         $('#region').attr('value',row.region);
         $('#memberUpdateModal').modal('show');
-
-
     });
+    $('#memberUpdateModal').keydown(function (key){
+        if(key.keyCode == 13){
+            $("#update").click();
+        }
+    })
     //사용자 수정 로직
     $("#update").on('click',function (){
         const url = "/api/member/"+ $("#id").text();
-        console.log(url);
         const member = JSON.stringify({
             memberId: $("#memberId").val(),
             name: $("#name").val(),
@@ -54,9 +56,6 @@ $(document).ready(function () {
             },
             success: function (){
                 table.ajax.reload(null,false);
-                // $("#memberUpdateModal").find('input[type=text]').each(function (){
-                //     $(this).val('');
-                // })
             }
         });
     })
@@ -72,6 +71,11 @@ $(document).ready(function () {
         });
     })
     //사용자 등록 로직
+    $('#memberCreateModal').keydown(function (key){
+        if(key.keyCode == 13){
+            $('#c_confirm').click();
+        }
+    })
     $(function () {
         $("#c_confirm").on('click', function () {
             let member = JSON.stringify({

@@ -3,6 +3,8 @@ package com.jirandata.member;
 import com.jirandata.member.dtos.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +23,7 @@ public class MemberService {
     }
 
     @Transactional
-    public Member update(Long id,MemberRequestDto requestDto) {
+    public Member update(Long id, MemberRequestDto requestDto) {
         Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         log.info(member.toString());
         member.changeMember(requestDto);
@@ -29,13 +31,18 @@ public class MemberService {
         return member;
     }
 
+    @Transactional
+    public void delete(Long id) {
+        memberRepository.deleteById(id);
+    }
+
+    @Transactional(readOnly = true)
     public List<Member> findAll() {
         return memberRepository.findAll();
     }
 
-
-    @Transactional
-    public void delete(Long id) {
-        memberRepository.deleteById(id);
+    @Transactional(readOnly = true)
+    public Page<Member> pageList(Pageable pageable){
+        return memberRepository.findAll(pageable);
     }
 }

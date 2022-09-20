@@ -83,6 +83,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body text-center">
+                <p id="id" class="d-none"></p>
                 <div class="d-flex justify-content-evenly m-0 fw-bold">
                     <p class="m-0">아이디</p>
                     <p class="m-0">이름</p>
@@ -103,7 +104,7 @@
             </div>
             <div class="modal-footer">
                 <div type="button" id="update" class="btn btn-primary" data-bs-dismiss="modal">확인</div>
-                <div type="button" id="delete" class="btn btn-danger" ata-bs-dismiss="modal">삭제</div>
+                <div type="button" id="delete" class="btn btn-danger" data-bs-dismiss="modal">삭제</div>
                 <div type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</div>
             </div>
         </div>

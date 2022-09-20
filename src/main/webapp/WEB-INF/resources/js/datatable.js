@@ -12,15 +12,16 @@ $(document).ready(function () {
             {data: 'memberId'},
             {data: 'name'},
             {data: 'password'},
+            {data: 'department'},
             {data: 'position'},
             {data: 'region'},
-            {data: 'department'},
         ]
     });
     $('#datatable tbody').on('click', 'tr', function () {
         const row = $('#datatable').DataTable().row($(this)).data();
 
         //사용자 수정 모달에 존재하는 input 태그 값 입력
+        $('#id').text(row.id);
         $('#memberId').attr('value',row.memberId);
         $('#name').attr('value',row.name);
         $('#password').attr('value',row.password);
@@ -29,43 +30,47 @@ $(document).ready(function () {
         $('#region').attr('value',row.region);
         $('#memberUpdateModal').modal('show');
 
-        //사용자 수정 로직
-        $("#update").on('click',function (){
-            const url = "/api/member/"+ row.id;
-            const member = JSON.stringify({
-                memberId: $("#memberId").val(),
-                name: $("#name").val(),
-                password: $("#password").val(),
-                department: $("#department").val(),
-                position: $("#position").val(),
-                region: $("#region").val()
-            });
-            $.ajax({
-                type: "PUT",
-                contentType: 'application/json',
-                url: url,
-                data: member,
-                error: function (e){
-                    console.log(e);
-                },
-                success: function (){
-                    table.ajax.reload(null,false);
-                }
-            });
-        })
 
-        //사용자 삭제 로직
-        $("#delete").on('click',function (){
-            const url = "/api/member/" +row.id;
-                $.ajax({
-                    type: "DELETE",
-                    url:url,
-                    success: function (){
-                        table.ajax.reload(null,false);
-                    }
-                });
-        })
     });
+    //사용자 수정 로직
+    $("#update").on('click',function (){
+        const url = "/api/member/"+ $("#id").text();
+        console.log(url);
+        const member = JSON.stringify({
+            memberId: $("#memberId").val(),
+            name: $("#name").val(),
+            password: $("#password").val(),
+            department: $("#department").val(),
+            position: $("#position").val(),
+            region: $("#region").val()
+        });
+        $.ajax({
+            type: "PUT",
+            contentType: 'application/json',
+            url: url,
+            data: member,
+            error: function (e){
+                console.log(e);
+            },
+            success: function (){
+                table.ajax.reload(null,false);
+                // $("#memberUpdateModal").find('input[type=text]').each(function (){
+                //     $(this).val('');
+                // })
+            }
+        });
+    })
+    //사용자 삭제 로직
+    $("#delete").on('click',function (){
+        const url = "/api/member/" +$("#id").text();
+        $.ajax({
+            type: "DELETE",
+            url:url,
+            success: function (){
+                table.ajax.reload(null,false);
+            }
+        });
+    })
     //사용자 등록 로직
     $(function () {
         $("#c_confirm").on('click', function () {
@@ -77,7 +82,6 @@ $(document).ready(function () {
                 position: $("#c_position").val(),
                 region: $("#c_region").val()
             });
-            console.log(member);
             $.ajax({
                 type: "POST",
                 contentType: 'application/json',
@@ -88,6 +92,9 @@ $(document).ready(function () {
                 },
                 success: function (){
                     table.ajax.reload(null,false);
+                    $("#memberCreateModal").find('input[type=text]').each(function (){
+                        $(this).val('');
+                    })
                 }
             });
         })

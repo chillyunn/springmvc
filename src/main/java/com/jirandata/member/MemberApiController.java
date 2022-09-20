@@ -4,6 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jirandata.member.dtos.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -35,5 +38,12 @@ public class MemberApiController {
     @DeleteMapping("/api/member/{id}")
     public void delete(@PathVariable Long id){
         memberService.delete(id);
+    }
+
+    @GetMapping("/api/members")
+    public Page<Member> pageList(@RequestParam Integer page,@RequestParam Integer size)
+    {
+        PageRequest pageable = PageRequest.of(page,size);
+        return memberService.pageList(pageable);
     }
 }

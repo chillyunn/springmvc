@@ -22,7 +22,7 @@
 </head>
 <body class="d-flex flex-column min-vh-100 h-100">
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<div class="container d-flex align-items-center justify-content-center flex-column h-100 w-50">
+<div class="container d-flex align-items-center justify-content-center flex-column h-100 w-100">
     <table id="datatable" class="table table-striped">
         <thead>
         <tr>

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,9 +20,8 @@ public class MemberService {
 
     @Transactional
     public void save(MemberRequestDto requestDto) {
-        memberRepository.save(requestDto.toEntity());
+        memberRepository.save(encodePassword(requestDto).toEntity());
     }
-
     @Transactional
     public Member update(Long id, MemberRequestDto requestDto) {
         Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
@@ -44,5 +44,13 @@ public class MemberService {
     @Transactional(readOnly = true)
     public Page<Member> pageList(Pageable pageable){
         return memberRepository.findAll(pageable);
+    }
+
+    private MemberRequestDto encodePassword(MemberRequestDto requestDto) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+        String encodedPassword = passwordEncoder.encode(requestDto.getPassword());
+        requestDto.changePlainToCipher(encodedPassword);
+        return requestDto;
     }
 }

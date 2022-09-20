@@ -35,6 +35,10 @@ public class MemberRequestDto {
                 .build();
     }
 
+    public void changePlainToCipher(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "MemberSaveRequestDTO{" + "memberId="+ memberId + "  name=" + name + "   password="+ password + "   department="+department+

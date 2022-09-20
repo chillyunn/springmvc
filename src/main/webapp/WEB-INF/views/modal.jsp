@@ -11,11 +11,11 @@
 
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>모달 페이지</title>
-    <link rel="stylesheet" href="plugin/bootstrap-5.2.0/bootstrap.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap-5.2.0/bootstrap.min.css">
     <%--jQuery library--%>
-    <script defer src="plugin/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+    <script defer src="plugins/jquery-3.6.1/jquery-3.6.1.min.js"></script>
     <%--Bootstrap.js--%>
-    <script defer src="plugin/bootstrap-5.2.0/bootstrap.min.js"></script>
+    <script defer src="plugins/bootstrap-5.2.0/bootstrap.min.js"></script>
     <%--    modal.js--%>
     <script defer src="js/modal.js"></script>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">

@@ -18,8 +18,7 @@ $(document).ready(function () {
         ]
     });
     $('#datatable tbody').on('click', 'tr', function () {
-        const row = $('#datatable').DataTable().row($(this)).data();
-
+        let row = $('#datatable').DataTable().row($(this)).data();
         //사용자 수정 모달에 존재하는 input 태그 값 입력
         $('#id').text(row.id);
         $('#memberId').attr('value',row.memberId);
@@ -30,12 +29,11 @@ $(document).ready(function () {
         $('#region').attr('value',row.region);
         $('#memberUpdateModal').modal('show');
     });
-    $('#memberUpdateModal').keydown(function (key){
-        if(key.keyCode == 13){
-            $("#update").click();
-        }
-    })
     //사용자 수정 로직
+    $('#memberUpdateModal').keydown(function (key){
+        if(key.keyCode == 13)
+            $("#update").click();
+    })
     $("#update").on('click',function (){
         const url = "/api/member/"+ $("#id").text();
         const member = JSON.stringify({
@@ -72,9 +70,8 @@ $(document).ready(function () {
     })
     //사용자 등록 로직
     $('#memberCreateModal').keydown(function (key){
-        if(key.keyCode == 13){
+        if(key.keyCode == 13)
             $('#c_confirm').click();
-        }
     })
     $(function () {
         $("#c_confirm").on('click', function () {

@@ -1,10 +1,10 @@
 $(document).ready(function () {
     //사용자 조회 로직
     const table = $('#datatable').DataTable({
-        pageLength: 3,
         serverSide: true,
         processing: true,
         searching:false,
+        lengthMenu:[[3,5,10,25,50,-1],[3,5,10,25,50,"All"]],
         ajax: {
             url: '/api/members/pageable',
             type: 'POST',

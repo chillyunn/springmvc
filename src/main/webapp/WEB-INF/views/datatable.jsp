@@ -10,20 +10,20 @@
 <head>
     <title>데이터테이블 페이지</title>
     <%--    CSS     --%>
-    <link rel="stylesheet" href="plugin/bootstrap-5.2.0/bootstrap.min.css">
-    <link rel="stylesheet" href="plugin/DataTables-1.12.1/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="plugins/bootstrap-5.2.0/bootstrap.min.css">
+    <link rel="stylesheet" href="plugins/dataTables-1.12.1/dataTables.bootstrap5.min.css">
     <%--    JS      --%>
-    <script defer src="plugin/jquery-3.6.1/jquery-3.6.1.min.js"></script>
-    <script defer src="plugin/jquery-3.6.1/jquery.dataTables.min.js"></script>
-    <script defer src="plugin/DataTables-1.12.1/dataTables.bootstrap5.min.js"></script>
-    <script defer src="plugin/bootstrap-5.2.0/bootstrap.min.js"></script>
+    <script defer src="plugins/jquery-3.6.1/jquery-3.6.1.min.js"></script>
+    <script defer src="plugins/jquery-3.6.1/jquery.dataTables.min.js"></script>
+    <script defer src="plugins/dataTables-1.12.1/dataTables.bootstrap5.min.js"></script>
+    <script defer src="plugins/bootstrap-5.2.0/bootstrap.min.js"></script>
     <script defer src="js/datatable.js"></script>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100 h-100">
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <div class="container d-flex align-items-center justify-content-center flex-column h-100 w-100">
-    <table id="datatable" class="table table-striped">
+    <table id="datatable" class="table table-striped" style="width: 1000px">
         <thead>
         <tr>
             <th>번호</th>

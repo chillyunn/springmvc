@@ -1,10 +1,12 @@
 $(document).ready(function () {
     //사용자 조회 로직
     const table = $('#datatable').DataTable({
-        pageLength: 5,
-        bLengthChange: false,
+        pageLength: 3,
+        serverSide: true,
+        processing: true,
+        searching:false,
         ajax: {
-            url: '/api/members',
+            url: '/api/members/pageable',
             type: 'POST',
         },
         columns: [
@@ -21,12 +23,12 @@ $(document).ready(function () {
         let row = $('#datatable').DataTable().row($(this)).data();
         //사용자 수정 모달에 존재하는 input 태그 값 입력
         $('#id').text(row.id);
-        $('#memberId').attr('value',row.memberId);
-        $('#name').attr('value',row.name);
-        $('#password').attr('value',row.password);
-        $('#department').attr('value',row.department);
-        $('#position').attr('value',row.position);
-        $('#region').attr('value',row.region);
+        $('#memberId').val(row.memberId);
+        $('#name').val(row.name);
+        $('#password').val(row.password);
+        $('#department').val(row.department);
+        $('#position').val(row.position);
+        $('#region').val(row.region);
         $('#memberUpdateModal').modal('show');
     });
     //사용자 수정 로직

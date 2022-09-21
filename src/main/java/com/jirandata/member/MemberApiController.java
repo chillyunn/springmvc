@@ -1,12 +1,14 @@
 package com.jirandata.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jirandata.member.dtos.MemberDataTableResponseDto;
 import com.jirandata.member.dtos.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -45,5 +47,9 @@ public class MemberApiController {
     {
         PageRequest pageable = PageRequest.of(page,size);
         return memberService.pageList(pageable);
+    }
+    @PostMapping("/api/members/pageable")
+    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto,@RequestBody MultiValueMap<String,String> map){
+        return memberService.findAllServerSide(responseDto,map);
     }
 }

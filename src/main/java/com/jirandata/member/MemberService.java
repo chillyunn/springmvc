@@ -68,6 +68,8 @@ public class MemberService {
         int draw = Integer.parseInt(map.get("draw").get(0));
         int start = Integer.parseInt(map.get("start").get(0));
         int length = Integer.parseInt(map.get("length").get(0));
+
+        //검색한 내용 저장
         String[] searchParams = new String[]{
                 map.get("columns[1][search][value]").get(0),
                 map.get("columns[2][search][value]").get(0),
@@ -80,15 +82,17 @@ public class MemberService {
         log.info("length: {}", length);
         Arrays.stream(searchParams).forEach(p -> log.info(p));
 
-       // int total = (int) memberRepository.count();
-
+        //조회해야하는 페이지 구하기
         int page = getPage(start, length);
 
         Pageable pageable = PageRequest.of(page, length);
-
+        //조회했을 때의 전체 페이지 수
+        // int total = (int) memberRepository.count();
         int total = memberQueryRepository.findCountByColumnsArrayPageable(searchParams).intValue();
-        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(searchParams, pageable);
+        //조회했을 때의 데이터
         // List data = memberRepository.findAll(PageRequest.of(page,length)).getContent();
+        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(searchParams, pageable);
+
 
         return responseDto.builder()
                 .draw(draw)
@@ -97,7 +101,6 @@ public class MemberService {
                 .data(data.getContent())
                 .build();
     }
-
     private int getPage(int start, int length) {
         return start / length;
     }

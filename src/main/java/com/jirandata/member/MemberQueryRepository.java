@@ -31,6 +31,8 @@ public class MemberQueryRepository {
                 .where(member.name.contains(name))
                 .fetch();
     }
+    //동적쿼리를 통해 해당하는 전체 열 조회
+    //BooleanExpression을 사용할 때 첫번째 조건이 null이면 NPE 발생한다.
     public List<Member> findByAllColumns(String memberId,String name,String department,String position,String region){
         return queryFactory.selectFrom(member)
                 .where(containsMemberId(memberId)
@@ -40,11 +42,13 @@ public class MemberQueryRepository {
                         .or(containsRegion(region)))
                 .fetch();
     }
+    //동적쿼리를 통해 해당하는 전체 열 조회
     public List<Member> findByAllColumnsArray(String[] parameters){
         return queryFactory.selectFrom(member)
                 .where(searchConditions(parameters))
                 .fetch();
     }
+    //동적쿼리를 통해 페이지에 해당하는 열 조회
     public PageImpl<Member> findAllColumnsArrayPageable(String[] parameters, Pageable pageable){
         List<Member> content = queryFactory.selectFrom(member)
                 .where(searchConditions(parameters))
@@ -54,6 +58,7 @@ public class MemberQueryRepository {
 
         return new PageImpl<>(content,pageable,content.size());
     }
+    //동적쿼리를 통해 얻은 열의 갯수 조회
     public Long findCountByColumnsArrayPageable(String[] parameters){
         return queryFactory.select(Wildcard.count).from(member)
                 .where(searchConditions(parameters))

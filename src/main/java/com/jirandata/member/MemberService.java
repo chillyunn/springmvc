@@ -5,6 +5,7 @@ import com.jirandata.member.dtos.MemberRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +24,13 @@ import java.util.Map;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
 
     @Transactional
     public void save(MemberRequestDto requestDto) {
         memberRepository.save(encodePassword(requestDto).toEntity());
     }
+
     @Transactional
     public Member update(Long id, MemberRequestDto requestDto) {
         Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
@@ -47,7 +51,7 @@ public class MemberService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Member> pageList(Pageable pageable){
+    public Page<Member> pageList(Pageable pageable) {
         return memberRepository.findAll(pageable);
     }
 
@@ -60,25 +64,37 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto,@RequestBody MultiValueMap<String,String> map){
+    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto, @RequestBody MultiValueMap<String, String> map) {
         int draw = Integer.parseInt(map.get("draw").get(0));
         int start = Integer.parseInt(map.get("start").get(0));
         int length = Integer.parseInt(map.get("length").get(0));
+        String[] searchParams = new String[]{
+                map.get("columns[1][search][value]").get(0),
+                map.get("columns[2][search][value]").get(0),
+                map.get("columns[4][search][value]").get(0),
+                map.get("columns[5][search][value]").get(0),
+                map.get("columns[6][search][value]").get(0),
+        };
+        log.info("draw: {}", draw);
+        log.info("start: {}", start);
+        log.info("length: {}", length);
+        Arrays.stream(searchParams).forEach(p -> log.info(p));
 
-        log.info("draw: {}",draw);
-        log.info("start: {}",start);
-        log.info("length: {}",length);
+       // int total = (int) memberRepository.count();
 
-        int total = (int) memberRepository.count();
-        int page = getPage(start,length);
-        List data = memberRepository.findAll(PageRequest.of(page,length)).getContent();
+        int page = getPage(start, length);
 
+        Pageable pageable = PageRequest.of(page, length);
+
+        int total = memberQueryRepository.findCountByColumnsArrayPageable(searchParams).intValue();
+        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(searchParams, pageable);
+        // List data = memberRepository.findAll(PageRequest.of(page,length)).getContent();
 
         return responseDto.builder()
                 .draw(draw)
                 .recordsTotal(total)
                 .recordsFilterd(total)
-                .data(data)
+                .data(data.getContent())
                 .build();
     }
 

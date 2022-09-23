@@ -3,10 +3,15 @@ $(document).ready(function () {
     const table = $('#datatable').DataTable({
         serverSide: true,
         processing: true,
+        searching:false,
         lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
         ajax: {
-            url: '/api/members/pageable',
+            url: '/api/members/list',
             type: 'POST',
+            data:function (d){
+                d.searchType = $("#search_type").val(),
+                d.searchValue = $("#search_value").val()
+            }
         },
         columns: [
             {data: 'id'},
@@ -103,16 +108,21 @@ $(document).ready(function () {
     $("#datatable_filter").attr("hidden","hidden");
     //검색 로직
     $("#btnSearch").on("click",function (){
-        //검색 후 재 검색시 이전에 검색했던 데이터 제거
-        const numCols = table.columns().nodes().length;
-        for(let i=0;i<numCols;i++)
-            table.column(i).search('');
-
-        const searchType = $("#search_type").val();
-        const searchValue= $("#search_value").val();
-        if(searchType == 0)
-            table.columns([0,1,2,3,4,5,6]).search(searchValue).draw();
-        else
-            table.column(searchType).search(searchValue).draw();
-    })
+        // $.ajax({
+        //     type:"POST",
+        //     // contentType:"application/json",
+        //     url:"/api/members/list",
+        //     data:JSON.stringify({
+        //         searchType: $("#search_type").val(),
+        //         searchValue: $("#search_value").val(),
+        //     }),
+        //     error: function (e){
+        //         console.log(e);
+        //     },
+        //     success: function (){
+        //         table.ajax.reload();
+        //     }
+        // })
+        table.draw();
+    });
 });

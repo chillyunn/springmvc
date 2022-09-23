@@ -26,15 +26,16 @@
     <div class="searchForm form-group d-flex">
         <div>
             <select name="search_type" class="form-control" id="search_type">
-                <option value="0">전체</option>
-                <option value="1">아이디</option>
-                <option value="2">이름</option>
-                <option value="4">부서</option>
-                <option value="5">직위</option>
-                <option value="6">거주지</option>
+                <option value="all">전체</option>
+                <option value="memberId">아이디</option>
+                <option value="name">이름</option>
+                <option value="department">부서</option>
+                <option value="position">직위</option>
+                <option value="region">거주지</option>
             </select>
         </div>
         <input type="text" class="form-control" id="search_value" style="width: 200px;">
+
         <button id="btnSearch" class="btn btn-info">검색</button>
     </div>
     <table id="datatable" class="table table-striped" style="width: 1200px">

@@ -14,4 +14,8 @@ public class IndexController {
     public String datatable(){
         return "datatable";
     }
+    @GetMapping("/modal")
+    public String modal(){
+        return "modal";
+    }
 }

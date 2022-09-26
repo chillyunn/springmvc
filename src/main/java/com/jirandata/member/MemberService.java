@@ -2,6 +2,10 @@ package com.jirandata.member;
 
 import com.jirandata.member.dtos.MemberDataTableResponseDto;
 import com.jirandata.member.dtos.MemberRequestDto;
+import com.jirandata.member.repository.MemberQueryRepository;
+import com.jirandata.member.repository.MemberRepository;
+import com.jirandata.member.repository.MemberSearchType;
+import com.jirandata.member.repository.OrderDirection;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -12,11 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor

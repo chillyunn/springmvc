@@ -1,4 +1,4 @@
-package com.jirandata.member;
+package com.jirandata.member.repository;
 
 import com.querydsl.core.types.dsl.StringPath;
 import static com.jirandata.member.QMember.member;

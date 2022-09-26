@@ -1,4 +1,4 @@
-package com.jirandata.member;
+package com.jirandata.member.repository;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.querydsl.core.types.OrderSpecifier;

@@ -1,5 +1,7 @@
-package com.jirandata.member;
+package com.jirandata.member.repository;
 
+import com.jirandata.member.Member;
+import com.jirandata.member.QMember;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -24,7 +26,7 @@ public class MemberQueryRepository {
 
 
     //동적쿼리를 통해 페이지에 해당하는 열 조회
-    public PageImpl<Member> findAllColumnsArrayPageable(MemberSearchType memberSearchType, String keyword,int columnIndex,OrderDirection orderDirection,Pageable pageable) {
+    public PageImpl<Member> findAllColumnsArrayPageable(MemberSearchType memberSearchType, String keyword, int columnIndex, OrderDirection orderDirection, Pageable pageable) {
         List<Member> content = queryFactory.selectFrom(member)
                 .where(builderSearch(memberSearchType,keyword))
                 .orderBy(order(columnIndex,orderDirection))

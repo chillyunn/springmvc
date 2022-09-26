@@ -6,9 +6,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import java.util.function.Function;
 
 import static com.jirandata.member.QMember.member;
-
+// 검색 카테고리 구현 및 카테고리에 따른 검색기능 위임
 public enum MemberSearchType {
-    All(value -> member.memberId.contains(value)
+    ALL(value -> member.memberId.contains(value)
             .or(member.name.contains(value))
             .or(member.department.contains(value))
             .or(member.position.contains(value))

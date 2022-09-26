@@ -1,8 +1,11 @@
 package com.jirandata.member;
 
+import com.jirandata.member.repository.MemberRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -31,5 +34,12 @@ class MemberRepositoryTest {
 
         assertEquals("1",member1.getMemberId());
     }
+    @Test
+    void pagingTest(){
+        PageRequest pageable = PageRequest.of(0,3);
+        Page<Member> result = memberRepository.findAll(pageable);
 
+        for(Member member : result.getContent())
+            System.out.println(member);
+    }
 }

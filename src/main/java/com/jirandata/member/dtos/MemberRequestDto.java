@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class MemberSaveRequestDto {
+public class MemberRequestDto {
     private String memberId;
     private String name;
     private String password;
@@ -16,7 +16,7 @@ public class MemberSaveRequestDto {
     private String position;
 
     @Builder
-    public MemberSaveRequestDto(String memberId, String name, String password, String department, String region, String position) {
+    public MemberRequestDto(String memberId, String name, String password, String department, String region, String position) {
         this.memberId = memberId;
         this.name = name;
         this.password = password;
@@ -33,5 +33,15 @@ public class MemberSaveRequestDto {
                 .position(position)
                 .region(region)
                 .build();
+    }
+
+    public void changePlainToCipher(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "MemberSaveRequestDTO{" + "memberId="+ memberId + "  name=" + name + "   password="+ password + "   department="+department+
+                "   position=" + position + "  region="+  region + "}";
     }
 }

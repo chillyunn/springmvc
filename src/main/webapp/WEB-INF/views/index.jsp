@@ -9,8 +9,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>부트스트랩 연습</title>
-    <link rel="stylesheet" href="plugin/bootstrap-5.2.0/bootstrap.min.css">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="plugins/bootstrap-5.2.0/bootstrap.min.css">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100">
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
@@ -23,6 +24,6 @@
     </div>
 </div>
 
-<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+<%--<%@ include file="/WEB-INF/views/common/footer.jsp" %>--%>
 </body>
 </html>

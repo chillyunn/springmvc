@@ -38,13 +38,11 @@
 
         <button id="btnSearch" class="btn btn-info">검색</button>
     </div>
-    <table id="datatable" class="table table-striped" style="width: 1200px">
+    <table id="datatable" class="table table-striped">
         <thead>
         <tr>
-            <th>번호</th>
             <th>아이디</th>
             <th>이름</th>
-            <th>비밀번호</th>
             <th>부서</th>
             <th>직위</th>
             <th>거주지</th>

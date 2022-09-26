@@ -104,25 +104,12 @@ $(document).ready(function () {
             }
         });
     })
-    //데이터테이블 기본 검색창 숨기기
-    $("#datatable_filter").attr("hidden","hidden");
+    $('#search_value').keydown(function (key) {
+        if (key.keyCode == 13)
+            $("#btnSearch").click();
+    })
     //검색 로직
     $("#btnSearch").on("click",function (){
-        // $.ajax({
-        //     type:"POST",
-        //     // contentType:"application/json",
-        //     url:"/api/members/list",
-        //     data:JSON.stringify({
-        //         searchType: $("#search_type").val(),
-        //         searchValue: $("#search_value").val(),
-        //     }),
-        //     error: function (e){
-        //         console.log(e);
-        //     },
-        //     success: function (){
-        //         table.ajax.reload();
-        //     }
-        // })
         table.draw();
     });
 });

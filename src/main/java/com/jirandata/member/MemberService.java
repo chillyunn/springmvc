@@ -64,34 +64,24 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto, @RequestBody MultiValueMap<String, String> map) {
+    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto,  MultiValueMap<String, String> map) {
+        // 통신횟수, 가져오기시작할 열 번호, 가져올 열의 길이 획득
         int draw = Integer.parseInt(map.get("draw").get(0));
         int start = Integer.parseInt(map.get("start").get(0));
         int length = Integer.parseInt(map.get("length").get(0));
 
-        //검색한 내용 저장
-        String[] searchParams = new String[]{
-                map.get("columns[1][search][value]").get(0),
-                map.get("columns[2][search][value]").get(0),
-                map.get("columns[4][search][value]").get(0),
-                map.get("columns[5][search][value]").get(0),
-                map.get("columns[6][search][value]").get(0),
-        };
-        log.info("draw: {}", draw);
-        log.info("start: {}", start);
-        log.info("length: {}", length);
-        Arrays.stream(searchParams).forEach(p -> log.info(p));
+        // 검색조건 및 키워드 획득
+        MemberSearchType memberSearchType = MemberSearchType.from(map.get("searchType").get(0));
+        String keyword = map.get("searchValue").get(0);
 
         //조회해야하는 페이지 구하기
         int page = getPage(start, length);
 
         Pageable pageable = PageRequest.of(page, length);
         //조회했을 때의 전체 페이지 수
-        // int total = (int) memberRepository.count();
-        int total = memberQueryRepository.findCountByColumnsArrayPageable(searchParams).intValue();
+        int total = memberQueryRepository.findCountByColumnsArrayPageable(memberSearchType, keyword).intValue();
         //조회했을 때의 데이터
-        // List data = memberRepository.findAll(PageRequest.of(page,length)).getContent();
-        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(searchParams, pageable);
+        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(memberSearchType, keyword, pageable);
 
 
         return responseDto.builder()

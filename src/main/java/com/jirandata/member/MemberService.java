@@ -70,6 +70,10 @@ public class MemberService {
         int start = Integer.parseInt(map.get("start").get(0));
         int length = Integer.parseInt(map.get("length").get(0));
 
+        //정렬할 열, 정렬 방법 획득
+        int columnIndex= Integer.parseInt(map.get("order[0][column]").get(0));
+        OrderDirection orderDirection = OrderDirection.from(map.get("order[0][dir]").get(0));
+
         // 검색조건 및 키워드 획득
         MemberSearchType memberSearchType = MemberSearchType.from(map.get("searchType").get(0));
         String keyword = map.get("searchValue").get(0);
@@ -81,7 +85,7 @@ public class MemberService {
         //조회했을 때의 전체 페이지 수
         int total = memberQueryRepository.findCountByColumnsArrayPageable(memberSearchType, keyword).intValue();
         //조회했을 때의 데이터
-        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(memberSearchType, keyword, pageable);
+        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(memberSearchType, keyword,columnIndex,orderDirection,pageable);
 
 
         return responseDto.builder()

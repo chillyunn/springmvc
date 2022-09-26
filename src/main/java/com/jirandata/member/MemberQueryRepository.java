@@ -14,6 +14,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 @Repository
@@ -25,7 +26,7 @@ public class MemberQueryRepository {
     //동적쿼리를 통해 페이지에 해당하는 열 조회
     public PageImpl<Member> findAllColumnsArrayPageable(MemberSearchType memberSearchType, String keyword,Pageable pageable) {
         List<Member> content = queryFactory.selectFrom(member)
-                .where(search(memberSearchType,keyword))
+                .where(builderSearch(memberSearchType,keyword))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -40,7 +41,22 @@ public class MemberQueryRepository {
                 .fetch().get(0);
     }
 
+    //첫 파라미터가 null일경우 NPE 발생
     private BooleanExpression search(MemberSearchType memberSearchType, String keyword) {
         return !StringUtils.hasText(keyword) ? null : memberSearchType.contains(keyword);
+    }
+    //첫 파라미터가 null이여도 정상 동작
+    private BooleanBuilder builderSearch(MemberSearchType memberSearchType,String keyword){
+        return nullSafeBuilder(()-> memberSearchType.contains(keyword));
+    }
+
+
+    // 유틸리티 클래스로 분리하여 public static 선언으로 공통사용가능
+    private BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f){
+        try{
+            return new BooleanBuilder(f.get());
+        }catch (IllegalArgumentException e){
+            return new BooleanBuilder();
+        }
     }
 }

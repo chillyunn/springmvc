@@ -23,7 +23,22 @@
 <body class="d-flex flex-column min-vh-100 h-100">
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <div class="container d-flex align-items-center justify-content-center flex-column h-100 w-100">
-    <table id="datatable" class="table table-striped" style="width: 1000px">
+    <div class="searchForm form-group d-flex">
+        <div>
+            <select name="search_type" class="form-control" id="search_type">
+                <option value="all">전체</option>
+                <option value="memberId">아이디</option>
+                <option value="name">이름</option>
+                <option value="department">부서</option>
+                <option value="position">직위</option>
+                <option value="region">거주지</option>
+            </select>
+        </div>
+        <input type="text" class="form-control" id="search_value" style="width: 200px;">
+
+        <button id="btnSearch" class="btn btn-info">검색</button>
+    </div>
+    <table id="datatable" class="table table-striped" style="width: 1200px">
         <thead>
         <tr>
             <th>번호</th>
@@ -37,7 +52,9 @@
         </thead>
     </table>
     <div id="inner-container" class="d-flex justify-content-end">
-        <button type="button" id="createRow" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#memberCreateModal">등록</button>
+        <button type="button" id="createRow" class="btn btn-primary " data-bs-toggle="modal"
+                data-bs-target="#memberCreateModal">등록
+        </button>
     </div>
 </div>
 

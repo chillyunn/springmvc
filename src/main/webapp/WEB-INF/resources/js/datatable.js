@@ -1,13 +1,17 @@
 $(document).ready(function () {
     //사용자 조회 로직
     const table = $('#datatable').DataTable({
-        pageLength: 3,
         serverSide: true,
         processing: true,
         searching:false,
+        lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
         ajax: {
-            url: '/api/members/pageable',
+            url: '/api/members/list',
             type: 'POST',
+            data:function (d){
+                d.searchType = $("#search_type").val(),
+                d.searchValue = $("#search_value").val()
+            }
         },
         columns: [
             {data: 'id'},
@@ -32,12 +36,12 @@ $(document).ready(function () {
         $('#memberUpdateModal').modal('show');
     });
     //사용자 수정 로직
-    $('#memberUpdateModal').keydown(function (key){
-        if(key.keyCode == 13)
+    $('#memberUpdateModal').keydown(function (key) {
+        if (key.keyCode == 13)
             $("#update").click();
     })
-    $("#update").on('click',function (){
-        const url = "/api/member/"+ $("#id").text();
+    $("#update").on('click', function () {
+        const url = "/api/member/" + $("#id").text();
         const member = JSON.stringify({
             memberId: $("#memberId").val(),
             name: $("#name").val(),
@@ -51,55 +55,61 @@ $(document).ready(function () {
             contentType: 'application/json',
             url: url,
             data: member,
-            error: function (e){
+            error: function (e) {
                 console.log(e);
             },
-            success: function (){
-                table.ajax.reload(null,false);
+            success: function () {
+                table.ajax.reload(null, false);
             }
         });
     })
     //사용자 삭제 로직
-    $("#delete").on('click',function (){
-        const url = "/api/member/" +$("#id").text();
+    $("#delete").on('click', function () {
+        const url = "/api/member/" + $("#id").text();
         $.ajax({
             type: "DELETE",
-            url:url,
-            success: function (){
-                table.ajax.reload(null,false);
+            url: url,
+            success: function () {
+                table.ajax.reload(null, false);
             }
         });
     })
     //사용자 등록 로직
-    $('#memberCreateModal').keydown(function (key){
-        if(key.keyCode == 13)
+    $('#memberCreateModal').keydown(function (key) {
+        if (key.keyCode == 13)
             $('#c_confirm').click();
     })
-    $(function () {
-        $("#c_confirm").on('click', function () {
-            let member = JSON.stringify({
-                memberId: $("#c_memberId").val(),
-                name: $("#c_name").val(),
-                password: $("#c_password").val(),
-                department: $("#c_department").val(),
-                position: $("#c_position").val(),
-                region: $("#c_region").val()
-            });
-            $.ajax({
-                type: "POST",
-                contentType: 'application/json',
-                url: "/api/member",
-                data: member,
-                error: function (e){
-                    console.log(e);
-                },
-                success: function (){
-                    table.ajax.reload(null,false);
-                    $("#memberCreateModal").find('input[type=text]').each(function (){
-                        $(this).val('');
-                    })
-                }
-            });
-        })
+    $("#c_confirm").on('click', function () {
+        let member = JSON.stringify({
+            memberId: $("#c_memberId").val(),
+            name: $("#c_name").val(),
+            password: $("#c_password").val(),
+            department: $("#c_department").val(),
+            position: $("#c_position").val(),
+            region: $("#c_region").val()
+        });
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/api/member",
+            data: member,
+            error: function (e) {
+                console.log(e);
+            },
+            success: function () {
+                table.ajax.reload(null, false);
+                $("#memberCreateModal").find('input[type=text]').each(function () {
+                    $(this).val('');
+                })
+            }
+        });
     })
+    $('#search_value').keydown(function (key) {
+        if (key.keyCode == 13)
+            $("#btnSearch").click();
+    })
+    //검색 로직
+    $("#btnSearch").on("click",function (){
+        table.draw();
+    });
 });

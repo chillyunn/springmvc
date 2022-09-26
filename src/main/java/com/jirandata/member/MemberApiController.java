@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +47,7 @@ public class MemberApiController {
         PageRequest pageable = PageRequest.of(page,size);
         return memberService.pageList(pageable);
     }
-    @PostMapping("/api/members/pageable")
+    @PostMapping("/api/members/list")
     public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto,@RequestBody MultiValueMap<String,String> map){
         return memberService.findAllServerSide(responseDto,map);
     }

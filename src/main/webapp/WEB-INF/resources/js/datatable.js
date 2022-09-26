@@ -14,10 +14,10 @@ $(document).ready(function () {
             }
         },
         columns: [
-            {data: 'id'},
+            // {data: 'id'},
             {data: 'memberId'},
             {data: 'name'},
-            {data: 'password'},
+            // {data: 'password'},
             {data: 'department'},
             {data: 'position'},
             {data: 'region'},

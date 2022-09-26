@@ -1,8 +1,8 @@
 package com.jirandata.member;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.StringPath;
 import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,8 @@ import org.springframework.util.StringUtils;
 
 
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
+
 
 @RequiredArgsConstructor
 @Repository
@@ -24,9 +24,10 @@ public class MemberQueryRepository {
 
 
     //동적쿼리를 통해 페이지에 해당하는 열 조회
-    public PageImpl<Member> findAllColumnsArrayPageable(MemberSearchType memberSearchType, String keyword,Pageable pageable) {
+    public PageImpl<Member> findAllColumnsArrayPageable(MemberSearchType memberSearchType, String keyword,int columnIndex,OrderDirection orderDirection,Pageable pageable) {
         List<Member> content = queryFactory.selectFrom(member)
                 .where(builderSearch(memberSearchType,keyword))
+                .orderBy(order(columnIndex,orderDirection))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -58,5 +59,10 @@ public class MemberQueryRepository {
         }catch (IllegalArgumentException e){
             return new BooleanBuilder();
         }
+    }
+
+    private OrderSpecifier<String> order(int columnIndex,OrderDirection orderDirection){
+       MemberOrderType memberOrderType = MemberOrderType.values()[columnIndex];
+        return orderDirection.order(memberOrderType.getStringPath());
     }
 }

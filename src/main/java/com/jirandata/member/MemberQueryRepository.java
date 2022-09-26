@@ -37,7 +37,7 @@ public class MemberQueryRepository {
     //동적쿼리를 통해 얻은 열의 갯수 조회
     public Long findCountByColumnsArrayPageable(MemberSearchType memberSearchType, String keyword) {
         return queryFactory.select(Wildcard.count).from(member)
-                .where(search(memberSearchType,keyword))
+                .where(builderSearch(memberSearchType,keyword))
                 .fetch().get(0);
     }
 

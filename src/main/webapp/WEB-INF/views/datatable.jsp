@@ -21,7 +21,46 @@
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100 h-100">
+<%--Modal--%>
+<div class="modal fade" id="memberModal" tabindex="-1" aria-labelledby="ModalLabel">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">사용자 수정</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p id="id" class="d-none"></p>
+                <div class="d-flex justify-content-evenly m-0 fw-bold">
+                    <p class="m-0">아이디</p>
+                    <p class="m-0">이름</p>
+                    <p class="m-0">비밀번호</p>
+                </div>
+                <input type="text" id="memberId" placeholder="입력하세요">
+                <input type="text" id="name" placeholder="입력하세요">
+                <input type="text" id="password" placeholder="입력하세요">
+                <div class="d-flex justify-content-evenly m-0 fw-bold">
+                    <p class="m-0">부서</p>
+                    <p class="m-0">직위</p>
+                    <p class="m-0">거주지</p>
+                </div>
+                <input type="text" id="department" placeholder="입력하세요">
+                <input type="text" id="position" placeholder="입력하세요">
+                <input type="text" id="region" placeholder="입력하세요">
+
+            </div>
+            <div class="modal-footer">
+                <div type="button" id="btnCreate" class="btn btn-primary" data-bs-dismiss="modal">등록</div>
+                <div type="button" id="btnUpdate" class="btn btn-primary" data-bs-dismiss="modal">수정</div>
+                <div type="button" id="btnDelete" class="btn btn-danger" data-bs-dismiss="modal">삭제</div>
+                <div type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</div>
+            </div>
+        </div>
+    </div>
+</div>
+<%--Header--%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%--Contents--%>
 <div class="container d-flex align-items-center justify-content-center flex-column h-100 w-100">
     <div class="searchForm form-group d-flex">
         <div>
@@ -50,79 +89,8 @@
         </thead>
     </table>
     <div id="inner-container" class="d-flex justify-content-end">
-        <button type="button" id="createRow" class="btn btn-primary " data-bs-toggle="modal"
-                data-bs-target="#memberCreateModal">등록
+        <button type="button" id="btnModal" class="btn btn-primary ">등록
         </button>
-    </div>
-</div>
-
-
-<div class="modal fade" id="memberCreateModal" tabindex="-1" aria-labelledby="ModalCreateLabel">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalCreateLabel">사용자 등록</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <div class="d-flex justify-content-evenly m-0 fw-bold">
-                    <p class="m-0">아이디</p>
-                    <p class="m-0">이름</p>
-                    <p class="m-0">비밀번호</p>
-                </div>
-                <input type="text" id="c_memberId" placeholder="입력하세요">
-                <input type="text" id="c_name" placeholder="입력하세요">
-                <input type="text" id="c_password" placeholder="입력하세요">
-                <div class="d-flex justify-content-evenly m-0 fw-bold">
-                    <p class="m-0">부서</p>
-                    <p class="m-0">직위</p>
-                    <p class="m-0">거주지</p>
-                </div>
-                <input type="text" id="c_department" placeholder="입력하세요">
-                <input type="text" id="c_position" placeholder="입력하세요">
-                <input type="text" id="c_region" placeholder="입력하세요">
-            </div>
-            <div class="modal-footer">
-                <div type="button" id="c_confirm" class="btn btn-primary" data-bs-dismiss="modal">확인</div>
-                <div type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="modal fade" id="memberUpdateModal" tabindex="-1" aria-labelledby="ModalLabel">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="ModalLabel">사용자 수정</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <p id="id" class="d-none"></p>
-                <div class="d-flex justify-content-evenly m-0 fw-bold">
-                    <p class="m-0">아이디</p>
-                    <p class="m-0">이름</p>
-                    <p class="m-0">비밀번호</p>
-                </div>
-                <input type="text" id="memberId" placeholder="입력하세요">
-                <input type="text" id="name" placeholder="입력하세요">
-                <input type="text" id="password" placeholder="입력하세요">
-                <div class="d-flex justify-content-evenly m-0 fw-bold">
-                    <p class="m-0">부서</p>
-                    <p class="m-0">직위</p>
-                    <p class="m-0">거주지</p>
-                </div>
-                <input type="text" id="department" placeholder="입력하세요">
-                <input type="text" id="position" placeholder="입력하세요">
-                <input type="text" id="region" placeholder="입력하세요">
-
-            </div>
-            <div class="modal-footer">
-                <div type="button" id="update" class="btn btn-primary" data-bs-dismiss="modal">확인</div>
-                <div type="button" id="delete" class="btn btn-danger" data-bs-dismiss="modal">삭제</div>
-                <div type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</div>
-            </div>
-        </div>
     </div>
 </div>
 <%--<%@ include file="/WEB-INF/views/common/footer.jsp" %>--%>

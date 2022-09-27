@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(function () {
     //사용자 조회 로직
     const table = $('#datatable').DataTable({
         serverSide: true,

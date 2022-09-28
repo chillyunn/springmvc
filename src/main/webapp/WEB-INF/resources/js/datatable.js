@@ -1,8 +1,8 @@
 $(function () {
     // 데이터테이블 초기화
     const table = initializeDatatable();
-    var row = $('#datatable').DataTable().row($(this)).data();
     $('#datatable tbody').on('click', 'tr', function () {
+        const row = $('#datatable').DataTable().row($(this)).data();
         updateMemberModal(row);
     });
     //사용자 등록
@@ -15,7 +15,8 @@ $(function () {
     })
     //사용자 삭제
     $("#btnDelete").on('click', function () {
-        deleteMember(table);
+        const id = $('#id').text();
+        deleteMember(table, id);
     })
     //사용자 검색
     $("#btnSearch").on("click", function () {
@@ -24,17 +25,6 @@ $(function () {
     //사용자 등록 클릭
     $("#btnModal").on("click", function () {
         createMemberModal();
-    })
-
-    //엔터키로 사용자 등록
-    $('#memberCreateModal').keydown(function (key) {
-        if (key.keyCode == 13)
-            $('#btnCreate').click();
-    })
-    //엔터키로 사용자 수정
-    $('#memberUpdateModal').keydown(function (key) {
-        if (key.keyCode == 13)
-            $("#update").click();
     })
     //엔터키로 사용자 검색
     $('#search_value').keydown(function (key) {
@@ -69,34 +59,33 @@ function initializeDatatable() {
     });
     return table;
 }
+
 function createMemberModal() {
     $("#memberModal").modal('show');
-
-    $("#memberCreateModal").find('input[type=text]').each(function () {
+    //모달 내부 input 값 초기화
+    $("#memberModal").find('input[type=text]').each(function () {
         $(this).val('');
     })
+    //수정,삭제 버튼 숨기고 등록 버튼 보이기
     $("#btnUpdate").hide();
     $("#btnDelete").hide();
     $("#btnCreate").show();
 }
 
 function updateMemberModal(row) {
+    $('#id').text(row.id);
+    $('#memberId').val(row.memberId);
+    $('#name').val(row.name);
+    $('#password').val(row.password);
+    $('#department').val(row.department);
+    $('#position').val(row.position);
+    $('#region').val(row.region);
 
-    $("#memberModal").modal('show');
-    $('#memberModal').on('show.bs.modal', function () {
-
-        //사용자 수정 모달에 존재하는 input 태그 값 입력
-        $('#id').text(row.id);
-        $('#memberId').val(row.memberId);
-        $('#name').val(row.name);
-        $('#password').val(row.password);
-        $('#department').val(row.department);
-        $('#position').val(row.position);
-        $('#region').val(row.region);
-    });
+    //등록 버튼 숨기고 수정,삭제 버튼 보이기
     $("#btnUpdate").show();
     $("#btnDelete").show();
     $("#btnCreate").hide();
+    $("#memberModal").modal('show');
 }
 
 function createMember(table) {
@@ -118,23 +107,23 @@ function createMember(table) {
         },
         success: function () {
             table.ajax.reload(null, false);
-            $("#memberCreateModal").find('input[type=text]').each(function () {
+            $("#memberModal").find('input[type=text]').each(function () {
                 $(this).val('');
             })
         }
     });
 }
 
-function deleteMember(table) {
-    console.log($("#id").text());
+function deleteMember(table, id) {
     $.ajax({
         type: "DELETE",
-        url: "/api/member/" + $("#id").text(),
+        url: "/api/member/" + id,
         success: function () {
             table.ajax.reload(null, false);
         }
     });
 }
+
 function updateMember(table) {
     const url = "/api/member/" + $("#id").text();
     const member = JSON.stringify({

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <html>
 <head>
     <title>데이터테이블 페이지</title>
@@ -59,7 +60,8 @@
     </div>
 </div>
 <%--Header--%>
-<%@ include file="/WEB-INF/views/common/header.jsp" %>
+<%--<%@ include file="/WEB-INF/views/common/header.jsp" %>--%>
+<tiles:insertAttribute name="header"></tiles:insertAttribute>
 <%--Contents--%>
 <div class="container d-flex align-items-center justify-content-center flex-column h-100 w-100">
     <div class="searchForm form-group d-flex">

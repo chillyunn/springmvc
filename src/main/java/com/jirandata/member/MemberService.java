@@ -2,10 +2,7 @@ package com.jirandata.member;
 
 import com.jirandata.member.dtos.MemberDataTableResponseDto;
 import com.jirandata.member.dtos.MemberRequestDto;
-import com.jirandata.member.repository.MemberQueryRepository;
-import com.jirandata.member.repository.MemberRepository;
-import com.jirandata.member.repository.MemberSearchType;
-import com.jirandata.member.repository.OrderDirection;
+import com.jirandata.member.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -98,5 +95,9 @@ public class MemberService {
     }
     private int getPage(int start, int length) {
         return start / length;
+    }
+
+    public List<RegionCount> findAllGroupByRegion() {
+        return memberRepository.countMemberByRegionInterface();
     }
 }

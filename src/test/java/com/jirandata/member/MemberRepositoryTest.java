@@ -1,6 +1,7 @@
 package com.jirandata.member;
 
 import com.jirandata.member.repository.MemberRepository;
+import com.jirandata.member.repository.RegionCount;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -41,5 +44,10 @@ class MemberRepositoryTest {
 
         for(Member member : result.getContent())
             System.out.println(member);
+    }
+    @Test
+    void 지역별_사원수찾기(){
+        List<RegionCount> dtos = memberRepository.countMemberByRegionInterface();
+        dtos.stream().forEach(m-> System.out.printf("%s:%d %n",m.getRegion(),m.getCountByRegion()));
     }
 }

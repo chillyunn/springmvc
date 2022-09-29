@@ -11,6 +11,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>메인 페이지</title>
     <link rel="stylesheet" href="plugins/bootstrap-5.2.0/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100">
@@ -24,6 +25,6 @@
     </div>
 </div>
 
-<%--<%@ include file="/WEB-INF/views/common/footer.jsp" %>--%>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

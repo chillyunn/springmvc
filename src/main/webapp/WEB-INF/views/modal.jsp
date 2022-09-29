@@ -8,10 +8,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html lang="ko">
 <head>
-
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>모달 페이지</title>
     <link rel="stylesheet" href="plugins/bootstrap-5.2.0/bootstrap.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <%--jQuery library--%>
     <script defer src="plugins/jquery-3.6.1/jquery-3.6.1.min.js"></script>
     <%--Bootstrap.js--%>
@@ -58,6 +58,6 @@
     </div>
 </div>
 
-<%--<%@ include file="/WEB-INF/views/common/footer.jsp" %>--%>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

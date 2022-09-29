@@ -12,6 +12,7 @@
     <%--    CSS     --%>
     <link rel="stylesheet" href="plugins/bootstrap-5.2.0/bootstrap.min.css">
     <link rel="stylesheet" href="plugins/dataTables-1.12.1/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="css/index.css">
     <%--    JS      --%>
     <script defer src="plugins/jquery-3.6.1/jquery-3.6.1.min.js"></script>
     <script defer src="plugins/jquery-3.6.1/jquery.dataTables.min.js"></script>
@@ -93,6 +94,6 @@
         </button>
     </div>
 </div>
-<%--<%@ include file="/WEB-INF/views/common/footer.jsp" %>--%>
+<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

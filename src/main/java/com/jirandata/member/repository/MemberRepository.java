@@ -9,7 +9,7 @@ import java.util.List;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member,Long> {
-    @Query(value = "select m.region AS region ,count(m.region) AS countByRegion from Member As m group by m.region")
+    @Query(value = "select m.region AS region ,count(m.region) AS count from Member As m group by m.region")
     public List<RegionCount> countMemberByRegionInterface();
 
 }

@@ -48,6 +48,6 @@ class MemberRepositoryTest {
     @Test
     void 지역별_사원수찾기(){
         List<RegionCount> dtos = memberRepository.countMemberByRegionInterface();
-        dtos.stream().forEach(m-> System.out.printf("%s:%d %n",m.getRegion(),m.getCountByRegion()));
+        dtos.stream().forEach(m-> System.out.printf("%s:%d %n",m.getRegion(),m.getCount()));
     }
 }

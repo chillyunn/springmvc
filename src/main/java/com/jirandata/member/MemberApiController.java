@@ -2,7 +2,7 @@ package com.jirandata.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jirandata.member.dtos.MemberDataTableResponseDto;
-import com.jirandata.member.dtos.MemberRegionResponseDto;
+import com.jirandata.member.dtos.MemberRegionChartResponseDto;
 import com.jirandata.member.dtos.MemberRequestDto;
 import com.jirandata.member.repository.RegionCount;
 import lombok.RequiredArgsConstructor;
@@ -53,8 +53,8 @@ public class MemberApiController {
     public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto,@RequestBody MultiValueMap<String,String> map){
         return memberService.findAllServerSide(responseDto,map);
     }
-    @PostMapping("/api/members/region")
-    public List<RegionCount> findAllGroupByRegion(){
+    @GetMapping("/api/members/region")
+    public MemberRegionChartResponseDto findAllGroupByRegion(){
         return memberService.findAllGroupByRegion();
     }
 }

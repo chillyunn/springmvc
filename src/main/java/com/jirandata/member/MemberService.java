@@ -1,11 +1,9 @@
 package com.jirandata.member;
 
 import com.jirandata.member.dtos.MemberDataTableResponseDto;
+import com.jirandata.member.dtos.MemberRegionChartResponseDto;
 import com.jirandata.member.dtos.MemberRequestDto;
-import com.jirandata.member.repository.MemberQueryRepository;
-import com.jirandata.member.repository.MemberRepository;
-import com.jirandata.member.repository.MemberSearchType;
-import com.jirandata.member.repository.OrderDirection;
+import com.jirandata.member.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -17,7 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
+import javax.json.JsonObject;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -65,14 +65,14 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto,  MultiValueMap<String, String> map) {
+    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto, MultiValueMap<String, String> map) {
         // 통신횟수, 가져오기시작할 열 번호, 가져올 열의 길이 획득
         int draw = Integer.parseInt(map.get("draw").get(0));
         int start = Integer.parseInt(map.get("start").get(0));
         int length = Integer.parseInt(map.get("length").get(0));
 
         //정렬할 열, 정렬 방법 획득
-        int columnIndex= Integer.parseInt(map.get("order[0][column]").get(0));
+        int columnIndex = Integer.parseInt(map.get("order[0][column]").get(0));
         OrderDirection orderDirection = OrderDirection.from(map.get("order[0][dir]").get(0));
 
         // 검색조건 및 키워드 획득
@@ -86,7 +86,7 @@ public class MemberService {
         //조회했을 때의 전체 페이지 수
         int total = memberQueryRepository.findCountByColumnsArrayPageable(memberSearchType, keyword).intValue();
         //조회했을 때의 데이터
-        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(memberSearchType, keyword,columnIndex,orderDirection,pageable);
+        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(memberSearchType, keyword, columnIndex, orderDirection, pageable);
 
 
         return responseDto.builder()
@@ -96,7 +96,16 @@ public class MemberService {
                 .data(data.getContent())
                 .build();
     }
+
     private int getPage(int start, int length) {
         return start / length;
+    }
+
+    public MemberRegionChartResponseDto findAllGroupByRegion() {
+        List<RegionCount> regionCountList = memberRepository.countMemberByRegionInterface();
+        List<String> regionList = regionCountList.stream().map(r->r.getRegion()).collect(Collectors.toList());
+        List<Long> countList = regionCountList.stream().map(c->c.getCount()).collect(Collectors.toList());
+        MemberRegionChartResponseDto responseDto = new MemberRegionChartResponseDto(regionList,countList);
+        return responseDto;
     }
 }

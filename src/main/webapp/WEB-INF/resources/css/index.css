@@ -1,4 +1,9 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
 .main-footer{
     padding: 15px;
     border-top: 1px solid #d2d6de;
+}
+* {
+    font-family: 'Noto Sans KR', sans-serif !important;
 }

@@ -17,10 +17,10 @@
     <div class="collapse navbar-collapse justify-content-center fw-bold flex-grow-0" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="/" >메인화면</a>
+          <a class="nav-link" href="/">메인화면</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/modal" s>모달</a>
+          <a class="nav-link " href="/modal">모달</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/datatable">데이터테이블</a>

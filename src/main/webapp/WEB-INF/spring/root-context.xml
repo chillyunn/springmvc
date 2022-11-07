@@ -12,7 +12,7 @@
        		   http://www.springframework.org/schema/data/jpa/spring-jpa-1.0.xsd">
 
     <jpa:repositories base-package="com.jirandata"/>
-
+    <jpa:auditing />
     <!--    스프링과 JPA 연동 설정  -->
     <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"></bean>
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

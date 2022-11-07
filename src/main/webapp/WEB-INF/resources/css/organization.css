@@ -1,0 +1,26 @@
+.organization{
+    display: flex !important;
+    margin-top: 1rem;
+    /*justify-content: space-between;*/
+}
+
+
+
+.organization-tree-wrap{
+    flex-direction: column;
+}
+.organization-modify-wrap{
+    flex-direction: row;
+}
+.organization p{
+    margin-bottom: 0;
+}
+.organization-search-wrap{
+    display: flex;
+}
+.organization-modify-wrap{
+    justify-content: space-around;
+}
+.organization-modify-wrap > p{
+    display: inline;
+}

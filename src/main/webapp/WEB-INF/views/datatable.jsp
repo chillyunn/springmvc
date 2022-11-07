@@ -9,17 +9,23 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <html>
 <head>
-    <title>데이터테이블 페이지</title>
+    <title>데이터테이블 관리</title>
     <%--    CSS     --%>
     <link rel="stylesheet" href="plugins/bootstrap-5.2.0/bootstrap.min.css">
     <link rel="stylesheet" href="plugins/dataTables-1.12.1/dataTables.bootstrap5.min.css">
     <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="plugins/fontawesome-6.2.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="plugins/fontawesome-6.2.0/css/brands.min.css">
     <%--    JS      --%>
     <script defer src="plugins/jquery-3.6.1/jquery-3.6.1.min.js"></script>
     <script defer src="plugins/jquery-3.6.1/jquery.dataTables.min.js"></script>
     <script defer src="plugins/dataTables-1.12.1/dataTables.bootstrap5.min.js"></script>
     <script defer src="plugins/bootstrap-5.2.0/bootstrap.min.js"></script>
     <script defer src="js/datatable.js"></script>
+    <script defer src="plugins/bootstrap-5.2.0/bootstrap.min.js"></script>
+    <script defer src="plugins/chart.js-3.9.1/chart.min.js"></script>
+    <script defer src="plugins/chartjs-plugin-datalabels-2.1.0/chartjs-plugin-datalabels.min.js"></script>
+    <script defer src="js/chart.js"></script>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body class="d-flex flex-column min-vh-100 h-100">
@@ -64,38 +70,45 @@
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%--<tiles:insertAttribute name="header"></tiles:insertAttribute>--%>
 <%--Contents--%>
-<div class="container d-flex align-items-center justify-content-center flex-column h-100 w-100">
-    <div class="searchForm form-group d-flex">
-        <div>
-            <select name="search_type" class="form-control" id="search_type">
-                <option value="all">전체</option>
-                <option value="memberId">아이디</option>
-                <option value="name">이름</option>
-                <option value="department">부서</option>
-                <option value="position">직위</option>
-                <option value="region">거주지</option>
-            </select>
-        </div>
-        <input type="text" class="form-control" id="search_value" style="width: 200px;">
-
-        <button id="btnSearch" class="btn btn-info">검색</button>
+<div class="content-wrapper" style="display: flex; margin: 10% 0 0 5%">
+    <div style="width: 400px; border: 1px solid #b6effb">
+        <h5 style="text-align: center">지역별 사원 수</h5>
+        <canvas id="regionChart"></canvas>
     </div>
-    <table id="datatable" class="table table-striped">
-        <thead>
-        <tr>
-            <th>아이디</th>
-            <th>이름</th>
-            <th>부서</th>
-            <th>직위</th>
-            <th>거주지</th>
-        </tr>
-        </thead>
-    </table>
-    <div id="inner-container" class="d-flex justify-content-end">
-        <button type="button" id="btnModal" class="btn btn-primary ">등록
-        </button>
+    <div class="container d-flex flex-column h-100 w-100">
+        <div class="searchForm form-group d-flex">
+            <div>
+                <select name="search_type" class="form-control" id="search_type">
+                    <option value="all">전체</option>
+                    <option value="memberId">아이디</option>
+                    <option value="name">이름</option>
+                    <option value="department">부서</option>
+                    <option value="position">직위</option>
+                    <option value="region">거주지</option>
+                </select>
+            </div>
+            <input type="text" class="form-control" id="search_value" style="width: 200px;">
+
+            <button id="btnSearch" class="btn btn-info">검색</button>
+        </div>
+        <table id="datatable" class="table table-striped">
+            <thead>
+            <tr>
+                <th>아이디</th>
+                <th>이름</th>
+                <th>부서</th>
+                <th>직위</th>
+                <th>거주지</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="inner-container" class="d-flex justify-content-end">
+            <button type="button" id="btnModal" class="btn btn-primary">등록
+            </button>
+        </div>
     </div>
 </div>
+
 <%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

@@ -25,6 +25,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/datatable">데이터테이블</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/organization">조직도</a>
+        </li>
       </ul>
     </div>
     <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapsed"

@@ -6,15 +6,10 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<style>
-  .nav-link{
-    color:white;
-  }
-</style>
 <nav class="navbar navbar-expand-lg" style="background-color: #00b6c2">
   <div class="container-fluid">
     <img src="images/logo_white.png" alt="지란지교데이터"  >
-    <div class="collapse navbar-collapse justify-content-center fw-bold flex-grow-0" id="navbarNav">
+    <div class="navigation-bar collapse navbar-collapse justify-content-center fw-bold flex-grow-0" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
           <a class="nav-link" href="/">메인화면</a>

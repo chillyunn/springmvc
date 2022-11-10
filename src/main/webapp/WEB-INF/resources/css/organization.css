@@ -1,16 +1,19 @@
 .organization{
-    display: flex !important;
     margin-top: 1rem;
-    /*justify-content: space-between;*/
+    justify-content: space-around;
 }
-
-
+.tap-wrap{
+    margin: 5% 15%;
+}
+.group-header{
+    display: flex;
+}
+.group-title{
+    margin-right: 1.3rem;
+}
 
 .organization-tree-wrap{
     flex-direction: column;
-}
-.organization-modify-wrap{
-    flex-direction: row;
 }
 .organization p{
     margin-bottom: 0;
@@ -18,9 +21,17 @@
 .organization-search-wrap{
     display: flex;
 }
-.organization-modify-wrap{
-    justify-content: space-around;
-}
+
 .organization-modify-wrap > p{
     display: inline;
+}
+.organization-modal-content{
+    display: flex;
+    justify-content: space-around;
+}
+.organization-modal-content > input{
+    text-align: right;
+}
+.nav-link{
+    color: #495057;
 }

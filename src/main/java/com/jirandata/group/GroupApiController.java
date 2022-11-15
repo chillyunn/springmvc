@@ -1,6 +1,7 @@
 package com.jirandata.group;
 
 import com.jirandata.group.dtos.GroupFindByNameRequestDto;
+import com.jirandata.group.dtos.GroupListResponseDto;
 import com.jirandata.group.dtos.GroupResponseDto;
 import com.jirandata.group.dtos.GroupSaveRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,12 @@ public class GroupApiController {
         log.info(requestDto.toString());
         return groupService.save(requestDto);
     }
-    @GetMapping("/api/groups")
-    public List<GroupResponseDto> findAll(){
-        return groupService.findAll();
-    }
     @GetMapping("/api/group")
-    public GroupResponseDto findByName(GroupFindByNameRequestDto requestDto){
+    public Group findByName(GroupFindByNameRequestDto requestDto){
         return groupService.findGroupByName(requestDto);
+    }
+    @GetMapping("api/groups")
+    public List<GroupListResponseDto> findAllGroups(){
+        return groupService.findAllGroups();
     }
 }

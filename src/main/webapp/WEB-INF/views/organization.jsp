@@ -55,7 +55,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" class="btn btn-primary">확인</button>
+                <button type="button" id="btnCreateGroup" class="btn btn-primary">확인</button>
             </div>
         </div>
     </div>
@@ -95,12 +95,12 @@
                     </div>
                 </div>
                 <div class="organization-search-wrap">
-                    <input type="text" id="organization-search-field" placeholder="조직 검색"></input>
+                    <input type="text" id="organization-search-field" placeholder="그룹 검색"></input>
                     <button id="btnTreeSearch" type="button" class="btn btn-info btn-sm">
                         <i class="fa-solid fa-magnifying-glass"> </i> 검색
                     </button>
                 </div>
-                <div id="organization-tree">
+                <div id="groupTree">
                 </div>
             </div>
             <div class="organization-table-wrap">

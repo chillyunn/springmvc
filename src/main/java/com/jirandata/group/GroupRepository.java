@@ -4,5 +4,5 @@ import com.jirandata.group.dtos.GroupResponseDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface GroupRepository extends JpaRepository<Group,Long> {
-    GroupResponseDto findByName(String name);
+    Group findByName(String name);
 }

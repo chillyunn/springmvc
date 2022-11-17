@@ -8,7 +8,7 @@
 .group-header{
     display: flex;
 }
-.group-title{
+.content-title{
     margin-right: 1.3rem;
 }
 
@@ -21,10 +21,6 @@
 .organization-search-wrap{
     display: flex;
 }
-
-.organization-modify-wrap > p{
-    display: inline;
-}
 .organization-modal-content{
     display: flex;
     justify-content: space-around;
@@ -34,4 +30,7 @@
 }
 .nav-link{
     color: #495057;
+}
+.agent-header{
+    display: flex;
 }

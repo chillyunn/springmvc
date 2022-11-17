@@ -80,7 +80,7 @@
              aria-labelledby="organization-tab" tabindex="0">
             <div class="organization-tree-wrap">
                 <div class="group-header">
-                    <h4 class="group-title">조직도</h4>
+                    <h4 class="content-title">조직도</h4>
                     <div class="organization-modify-wrap">
                         <button id="btnShowGroupCreationModal" type="button" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-user-plus"></i> 추가
@@ -103,7 +103,20 @@
                 </div>
             </div>
             <div class="organization-table-wrap">
-                <h4>에이전트 목록</h4>
+                <div class="agent-header">
+                    <h4 class="content-title">에이전트 목록</h4>
+                    <div class="agent-control-wrap">
+                        <button id="btnShowAgentCreationModal" type="button" class="btn btn-primary btn-sm">
+                            <i class="fa-solid fa-user-plus"></i> 추가
+                        </button>
+                        <button id="btnShoAgentUpdateModal" type="button" class="btn btn-secondary btn-sm">
+                            <i class="fa-solid fa-pencil"></i> 수정
+                        </button>
+                        <button id="btnDeleteAgent" type="button" class="btn btn-danger btn-sm">
+                            <i class="fa-solid fa-user-xmark"></i> 삭제
+                        </button>
+                    </div>
+                </div>
                 <table id="organization-table" class="table table-striped">
                     <thead>
                     <tr>

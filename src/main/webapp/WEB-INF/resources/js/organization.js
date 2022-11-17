@@ -5,12 +5,15 @@ $(function (){
 
     $('#btnShowGroupCreationModal').on('click',function(){
         initializeGroupCreationModal();
+
+        $('#btnConfirmCreation').off('click');
         $('#btnConfirmCreation').on('click',function(){
             createGroup();
         })
     })
     $('#btnShowGroupUpdateModal').on('click',function(){
         initializeGroupUpdateModal();
+        $('#btnConfirmUpdate').off('click');
         $('#btnConfirmUpdate').on('click',function(){
             const id = getSelectedNodeId();
             updateGroup(id);

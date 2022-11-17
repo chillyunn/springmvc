@@ -30,7 +30,7 @@ public class Group extends BaseTimeEntity {
     @Column(nullable = false)
     private String sort;
 
-    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     List<Group> childrens = new ArrayList<>();
 
     @OneToMany(mappedBy = "group", fetch = FetchType.LAZY)
@@ -60,5 +60,18 @@ public class Group extends BaseTimeEntity {
     public boolean hasAgent(Agent agent){
         return this.agents.contains(agent) ? true : false;
     }
+    public void update(String name, Group parent, String sort){
+        this.name=name;
+        this.parent=parent;
+        this.sort=sort;
+    }
 
+    @Override
+    public String toString() {
+        return "Group{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", sort='" + sort + '\'' +
+                '}';
+    }
 }

@@ -31,11 +31,11 @@
 <%--Header--%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
 <%--Modal--%>
-<div class="modal fade" id="organizationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="groupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">조직 추가</h5>
+                <h5 class="modal-title" id="groupModalLabel"></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -44,8 +44,8 @@
                     <input type="text" class="form-control" id="inputGroupName" aria-describedby="groupName">
                 </div>
                 <div class="organization-modal-content">
-                    <span class="input-group-text" id="parentGroupName">상위그룹명</span>
-                    <input type="text" class="form-control" id="inputSarentGroupName"
+                    <span class="input-group-text" id="parentGroupName" >상위그룹명</span>
+                    <input type="text" class="form-control" id="inputParentGroupName"
                            aria-describedby="parentGroupName">
                 </div>
                 <div class="organization-modal-content">
@@ -55,7 +55,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                <button type="button" id="btnCreateGroup" class="btn btn-primary">확인</button>
+                <button type="button" id="btnConfirmCreation" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
             </div>
         </div>
     </div>
@@ -82,14 +82,13 @@
                 <div class="group-header">
                     <h4 class="group-title">조직도</h4>
                     <div class="organization-modify-wrap">
-                        <button id="btnTreeInsert" type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#organizationModal">
+                        <button id="btnShowGroupCreationModal" type="button" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-user-plus"></i> 추가
                         </button>
-                        <button id="btnTreeUpdate" type="button" class="btn btn-secondary btn-sm">
+                        <button id="btnShowGroupUpdateModal" type="button" class="btn btn-secondary btn-sm">
                             <i class="fa-solid fa-pencil"></i> 수정
                         </button>
-                        <button id="btnTreeDelete" type="button" class="btn btn-danger btn-sm">
+                        <button id="btnDeleteGroup" type="button" class="btn btn-danger btn-sm">
                             <i class="fa-solid fa-user-xmark"></i> 삭제
                         </button>
                     </div>
@@ -113,9 +112,7 @@
                         <th>IP</th>
                         <th>MAC</th>
                         <th>생성일</th>
-                        <th>최근
-
-                            변경일
+                        <th>최근 변경일
                         </th>
                     </tr>
                     </thead>

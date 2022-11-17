@@ -16,7 +16,7 @@ public class GroupQueryRepository {
     QGroup group = QGroup.group;
 
     public List<GroupListResponseDto> getGroupList(){
-        return queryFactory.select(new QGroupListResponseDto(group.id,group.name,group.parent.id))
+        return queryFactory.select(new QGroupListResponseDto(group.id,group.name,group.parent.id,group.sort))
                 .from(group)
                 .orderBy(group.sort.asc())
                 .fetch();

@@ -32,6 +32,6 @@ public class GroupSaveRequestDto {
 
     @Override
     public String toString() {
-        return "name: "+this.name+ "parentName: "+parentName+" sort: "+ this.sort;
+        return "name: "+this.name+ " parentName: "+parentName+" sort: "+ this.sort;
     }
 }

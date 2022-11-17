@@ -18,4 +18,9 @@ public class IndexController {
     public String modal(){
         return "modal";
     }
+
+    @GetMapping("/organization")
+    public String organization(){
+        return "organization";
+    }
 }

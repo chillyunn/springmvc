@@ -19,7 +19,12 @@ public class GroupService {
     @Transactional
     public Long save(GroupSaveRequestDto requestDto){
         Group parent = groupRepository.findByName(requestDto.getParentName());
-        return groupRepository.save(requestDto.toEntity(parent)).getId();
+        Group child= requestDto.toEntity(parent);
+
+        if (parent != null){
+            parent.appendChild(child);
+        }
+        return groupRepository.save(child).getId();
     }
     @Transactional
     public Long update(Long id, GroupUpdateRequestDto requestDto){

@@ -30,8 +30,8 @@
 <body class="d-flex flex-column min-vh-100 h-100">
 <%--Header--%>
 <%@ include file="/WEB-INF/views/common/header.jsp" %>
-<%--Modal--%>
-<div class="modal fade" id="groupModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<%--Group Modal--%>
+<div class="modal fade" id="groupModal" tabindex="-1" aria-labelledby="groupModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -56,6 +56,40 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                 <button type="button" id="btnConfirmCreation" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+<%--Agent Modal--%>
+<div class="modal fade" id="agentModal" tabindex="-1" aria-labelledby="agentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="agentModalLabel"></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="organization-modal-content">
+                    <span class="input-group-text" id="agentName">에이전트명</span>
+                    <input type="text" class="form-control" id="inputAgentName" aria-describedby="groupName">
+                </div>
+                <div class="organization-modal-content">
+                    <span class="input-group-text" id="agentGroupName" >소속그룹명</span>
+                    <input type="text" class="form-control" id="inputAgentGroupName"
+                           aria-describedby="agentGroupName">
+                </div>
+                <div class="organization-modal-content">
+                    <span class="input-group-text" id="ipValue">IP주소</span>
+                    <input type="text" class="form-control" id="inputIpValue" aria-describedby="ipValue">
+                </div>
+                <div class="organization-modal-content">
+                    <span class="input-group-text" id="macValue">MAC주소</span>
+                    <input type="text" class="form-control" id="inputMacValue" aria-describedby="macValue">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                <button type="button" id="btnConfirmCreateAgent" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
             </div>
         </div>
     </div>
@@ -102,14 +136,14 @@
                 <div id="groupTree">
                 </div>
             </div>
-            <div class="organization-table-wrap">
+            <div class="agent-table-wrap">
                 <div class="agent-header">
                     <h4 class="content-title">에이전트 목록</h4>
                     <div class="agent-control-wrap">
                         <button id="btnShowAgentCreationModal" type="button" class="btn btn-primary btn-sm">
                             <i class="fa-solid fa-user-plus"></i> 추가
                         </button>
-                        <button id="btnShoAgentUpdateModal" type="button" class="btn btn-secondary btn-sm">
+                        <button id="btnShowAgentUpdateModal" type="button" class="btn btn-secondary btn-sm">
                             <i class="fa-solid fa-pencil"></i> 수정
                         </button>
                         <button id="btnDeleteAgent" type="button" class="btn btn-danger btn-sm">
@@ -117,7 +151,7 @@
                         </button>
                     </div>
                 </div>
-                <table id="organization-table" class="table table-striped">
+                <table id="agentTable" class="table table-striped">
                     <thead>
                     <tr>
                         <th>이름</th>

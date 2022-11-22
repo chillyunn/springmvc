@@ -1,5 +1,3 @@
-
-
 $(function (){
     initializeGroupTree();
 
@@ -19,7 +17,16 @@ $(function (){
             updateGroup(id);
         })
     })
-
+    $('#btnShowAgentCreationModal').on('click',function(){
+        initializeAgentCreationModal();
+        $('#btnConfirmCreateAgent').off('click');
+        $('#btnConfirmCreateAgent').on('click',function (){
+            createAgent();
+        });
+    })
+    $('#btnShowAgentUpdateModal').on('click',function(){
+        initializeAgentUpdateModal();
+    })
 
     $('#btnDeleteGroup').on('click',function (){
         deleteGroup();
@@ -54,7 +61,9 @@ function refreshGroupTree() {
     $('#groupTree').jstree(true).settings.core.data = getGroupList();
     $('#groupTree').jstree(true).refresh();
 }
-
+function refreshAgentTable(){
+    $('#agentTable').DataTable().ajax.reload();
+}
 function createGroup() {
     const group=JSON.stringify({
         name:$("#inputGroupName").val(),
@@ -71,6 +80,26 @@ function createGroup() {
         },
         success: function(){
             refreshGroupTree();
+        }
+    })
+}
+function createAgent(){
+    const agent= JSON.stringify({
+        name:$("#inputAgentName").val(),
+        groupName:$("#inputAgentGroupName").val(),
+        ip:$("#inputIpValue").val(),
+        mac:$("#inputMacValue").val()
+    });
+    $.ajax({
+        type:"POST",
+        contentType: 'application/json',
+        url:"api/agent",
+        data:agent,
+        error:function(e){
+            console.log(e);
+        },
+        success: function (){
+            //refreshAgentTable();
         }
     })
 }
@@ -94,7 +123,7 @@ function updateGroup(id) {
     })
 }
 function initializeGroupCreationModal() {
-    showModalAndChangeLabel("그룹 추가");
+    showGroupModalAndChangeLabel("그룹 추가");
     $("#groupModal").find('input[type=text]').each(function () {
         $(this).val('');
     })
@@ -104,13 +133,23 @@ function initializeGroupCreationModal() {
 }
 
 function initializeGroupUpdateModal() {
-    showModalAndChangeLabel("그룹 수정");
+    showGroupModalAndChangeLabel("그룹 수정");
 
     $("#inputGroupName").val(getSelectedNodeName());
     $("#inputParentGroupName").val(getSelectedNodeParentName());
     $("#inputSortValue").val(getSelectedNodeSort());
 
     $("#btnConfirmCreation")?.attr('id', 'btnConfirmUpdate');
+}
+function initializeAgentCreationModal() {
+    showAgentModalAndChangeLabel("에이전트 추가")
+    $("#agentModal").find('input[type=text]').each(function () {
+        $(this).val('');
+    })
+    $("#inputAgentGroupName").val(getSelectedNodeName());
+}
+function initializeAgentUpdateModal() {
+    showAgentModalAndChangeLabel("에이전트 수정");
 }
 function getSelectedNodeId() {
     return $('#groupTree').jstree('get_selected', true)[0]?.id;
@@ -149,7 +188,11 @@ function changeParentValueToHash(data) {
     }
     return data;
 }
-function showModalAndChangeLabel(label) {
+function showGroupModalAndChangeLabel(label) {
     $("#groupModal").modal('show');
     $("#groupModalLabel").html(label)
+}
+function showAgentModalAndChangeLabel(label){
+    $("#agentModal").modal('show');
+    $("#agentModalLabel").html(label);
 }

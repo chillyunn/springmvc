@@ -1,6 +1,7 @@
 package com.jirandata.agent.dtos;
 
 import com.jirandata.agent.Agent;
+import com.jirandata.group.Group;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AgentSaveRequestDto {
     private String name;
+    private String groupName;
     private String ip;
     private String mac;
 
@@ -19,9 +21,10 @@ public class AgentSaveRequestDto {
         this.mac = mac;
     }
 
-    public Agent toEntity(String name, String ip, String mac){
+    public Agent toEntity(Group group){
         return Agent.builder()
                 .name(name)
+                .group(group)
                 .ip(ip)
                 .mac(mac)
                 .build();

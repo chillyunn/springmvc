@@ -28,17 +28,10 @@ public class Agent extends BaseTimeEntity {
     private Group group;
 
     @Builder
-    public Agent(String name, String ip, String mac) {
+    public Agent(String name, String ip, String mac,Group group) {
         this.name = name;
         this.ip = ip;
         this.mac = mac;
-    }
-
-    public void changeGroup(Group group){
-        if(this.group != null){
-            this.group.removeAgent(this);
-        }
-        this.group = group;
-        group.checkAgent(this);
+        this.group= group;
     }
 }

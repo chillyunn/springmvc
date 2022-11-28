@@ -1,6 +1,6 @@
 package com.jirandata.group;
 
-import com.jirandata.BaseTimeEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @Entity
 @Table(name = "group_t")
-public class Group extends BaseTimeEntity {
+public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "group_code")
@@ -30,6 +30,7 @@ public class Group extends BaseTimeEntity {
     private String sort;
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+    @JsonIgnore
     List<Group> childrens = new ArrayList<>();
 
     @Builder
@@ -42,6 +43,12 @@ public class Group extends BaseTimeEntity {
         this.name=name;
         this.parent=parent;
         this.sort=sort;
+    }
+    public boolean hasParent(){
+        if (this.parent != null){
+            return true;
+        }
+            return false;
     }
     public void appendChild(Group group){
         this.getChildrens().add(group);

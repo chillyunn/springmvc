@@ -34,4 +34,11 @@ public class Agent extends BaseTimeEntity {
         this.mac = mac;
         this.group= group;
     }
+
+    public void update(String name, Group group, String ip, String mac){
+        this.name=name;
+        this.group=group;
+        this.ip=ip;
+        this.mac=mac;
+    }
 }

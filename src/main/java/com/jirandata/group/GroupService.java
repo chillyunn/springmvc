@@ -18,18 +18,16 @@ public class GroupService {
 
     @Transactional
     public Long save(GroupSaveRequestDto requestDto){
-        Group parent = groupRepository.findByName(requestDto.getParentName());
+        Group parent = groupRepository.findByName(requestDto.getParentName()).orElse(null);
         Group child= requestDto.toEntity(parent);
 
-        if (parent != null){
-            parent.appendChild(child);
-        }
+        appendChildRecursion(parent,child);
         return groupRepository.save(child).getId();
     }
     @Transactional
     public Long update(Long id, GroupUpdateRequestDto requestDto){
         Group group = groupRepository.findById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 그룹입니다."));
-        Group parent = groupRepository.findByName(requestDto.getParentName());
+        Group parent = groupRepository.findByName(requestDto.getParentName()).orElseThrow(()->new IllegalArgumentException("존재하지 않는 그룹이름"));
         group.update(requestDto.getName(),parent,requestDto.getSort());
         groupRepository.save(group);
         return id;
@@ -49,10 +47,18 @@ public class GroupService {
     }
     @Transactional(readOnly = true)
     public Group findGroupByName(GroupFindByNameRequestDto requestDto){
-        return groupRepository.findByName(requestDto.getName());
+        return groupRepository.findByName(requestDto.getName()).orElseThrow(()->new IllegalArgumentException("존재하지 않는 그룹이름"));
     }
     @Transactional(readOnly = true)
     public List<GroupListResponseDto> findAllGroups(){
         return groupQueryRepository.getGroupList();
+    }
+
+    @Transactional
+    void appendChildRecursion(Group group,Group child){
+        if(group != null && group.hasParent()){
+            group.getParent().appendChild(child);
+            appendChildRecursion(group.getParent(),child);
+        }
     }
 }

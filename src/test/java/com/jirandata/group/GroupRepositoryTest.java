@@ -44,7 +44,7 @@ class GroupRepositoryTest {
     @Transactional
     @Test
     void 일대다속성이_영속성컨텍스트에_저장되는가(){
-        Group group = groupRepository.findByName("부모1");
+        Group group = groupRepository.findByName("부모1").orElseThrow(()->new IllegalArgumentException("존재하지 않는 그룹이름"));
         System.out.println(group.toString());
         group.getChildrens().forEach(System.out::println);
     }

@@ -35,7 +35,8 @@ public class GroupApiController {
 
     }
     @GetMapping("api/groups")
-    public List<GroupListResponseDto> findAllGroups(){
+    public List<GroupListResponseDto> findAllGroups() {
+        log.info("그룹 조회 요청");
         return groupService.findAllGroups();
     }
 }

@@ -1,10 +1,9 @@
 package com.jirandata.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jirandata.member.dtos.MemberDataTableResponseDto;
+import com.jirandata.common.dto.DataTableResponseDto;
 import com.jirandata.member.dtos.MemberRegionChartResponseDto;
 import com.jirandata.member.dtos.MemberRequestDto;
-import com.jirandata.member.repository.RegionCount;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -50,7 +49,7 @@ public class MemberApiController {
         return memberService.pageList(pageable);
     }
     @PostMapping("/api/members/list")
-    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto,@RequestBody MultiValueMap<String,String> map){
+    public DataTableResponseDto findAllServerSide(DataTableResponseDto responseDto, @RequestBody MultiValueMap<String,String> map){
         return memberService.findAllServerSide(responseDto,map);
     }
     @GetMapping("/api/members/region")

@@ -2,6 +2,8 @@ package com.jirandata.member.repository;
 
 import com.jirandata.member.Member;
 import com.jirandata.member.QMember;
+import com.jirandata.util.Order;
+import com.jirandata.util.OrderDirection;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -13,14 +15,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-
 import java.util.List;
-import java.util.function.Supplier;
+
+import static com.jirandata.util.QueryBuildUtils.nullSafeBuilder;
 
 
 @RequiredArgsConstructor
 @Repository
-public class MemberQueryRepository {
+public class MemberQueryRepository implements Order {
     private final JPAQueryFactory queryFactory;
     QMember member = QMember.member;
 
@@ -53,18 +55,9 @@ public class MemberQueryRepository {
         return nullSafeBuilder(()-> memberSearchType.contains(keyword));
     }
 
-
-    // 유틸리티 클래스로 분리하여 public static 선언으로 공통사용가능
-    private BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f){
-        try{
-            return new BooleanBuilder(f.get());
-        }catch (IllegalArgumentException e){
-            return new BooleanBuilder();
-        }
-    }
-
-    private OrderSpecifier<String> order(int columnIndex,OrderDirection orderDirection){
-       MemberOrderType memberOrderType = MemberOrderType.values()[columnIndex];
+    @Override
+    public OrderSpecifier<String> order(int columnIndex, OrderDirection orderDirection){
+        MemberOrderType memberOrderType = MemberOrderType.values()[columnIndex];
         return orderDirection.order(memberOrderType.getStringPath());
     }
 }

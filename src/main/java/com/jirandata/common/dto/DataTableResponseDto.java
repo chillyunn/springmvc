@@ -1,4 +1,4 @@
-package com.jirandata.member.dtos;
+package com.jirandata.common.dto;
 
 import lombok.*;
 import org.springframework.util.CollectionUtils;
@@ -7,13 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
-@ToString
-@Setter
 @Getter
-public class MemberDataTableResponseDto {
+public class DataTableResponseDto {
     private int draw;
-    private int recordsTotal;
-    private int recordsFiltered;
+    private long recordsTotal;
+    private long recordsFiltered;
     private List data;
 
 
@@ -24,7 +22,7 @@ public class MemberDataTableResponseDto {
         return data;
     }
     @Builder
-    public MemberDataTableResponseDto(int draw, int recordsTotal, int recordsFilterd, List data) {
+    public DataTableResponseDto(int draw, long recordsTotal, long recordsFilterd, List data) {
         this.draw = draw;
         this.recordsTotal = recordsTotal;
         this.recordsFiltered = recordsFilterd;

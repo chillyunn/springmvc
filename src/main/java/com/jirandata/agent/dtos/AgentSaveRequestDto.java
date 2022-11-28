@@ -29,4 +29,14 @@ public class AgentSaveRequestDto {
                 .mac(mac)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return "AgentSaveRequestDto{" +
+                "name='" + name + '\'' +
+                ", groupName='" + groupName + '\'' +
+                ", ip='" + ip + '\'' +
+                ", mac='" + mac + '\'' +
+                '}';
+    }
 }

@@ -34,3 +34,6 @@
 .agent-header{
     display: flex;
 }
+#agentTable{
+    width:850px;
+}

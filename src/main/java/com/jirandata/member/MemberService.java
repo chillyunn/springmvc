@@ -1,21 +1,23 @@
 package com.jirandata.member;
 
-import com.jirandata.member.dtos.MemberDataTableResponseDto;
+import com.jirandata.common.dto.DataTableResponseDto;
 import com.jirandata.member.dtos.MemberRegionChartResponseDto;
 import com.jirandata.member.dtos.MemberRequestDto;
-import com.jirandata.member.repository.*;
+import com.jirandata.member.repository.MemberQueryRepository;
+import com.jirandata.member.repository.MemberRepository;
+import com.jirandata.member.repository.MemberSearchType;
+import com.jirandata.member.repository.RegionCount;
+import com.jirandata.util.DatatablePayload;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
-import javax.json.JsonObject;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,42 +67,25 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDataTableResponseDto findAllServerSide(MemberDataTableResponseDto responseDto, MultiValueMap<String, String> map) {
-        // 통신횟수, 가져오기시작할 열 번호, 가져올 열의 길이 획득
-        int draw = Integer.parseInt(map.get("draw").get(0));
-        int start = Integer.parseInt(map.get("start").get(0));
-        int length = Integer.parseInt(map.get("length").get(0));
-
-        //정렬할 열, 정렬 방법 획득
-        int columnIndex = Integer.parseInt(map.get("order[0][column]").get(0));
-        OrderDirection orderDirection = OrderDirection.from(map.get("order[0][dir]").get(0));
-
+    public DataTableResponseDto findAllServerSide(DataTableResponseDto responseDto, MultiValueMap<String, String> map) {
+        DatatablePayload datatablePayload = new DatatablePayload(map);
+        Pageable pageable = datatablePayload.getPageable();
         // 검색조건 및 키워드 획득
-        MemberSearchType memberSearchType = MemberSearchType.from(map.get("searchType").get(0));
-        String keyword = map.get("searchValue").get(0);
-
-        //조회해야하는 페이지 구하기
-        int page = getPage(start, length);
-
-        Pageable pageable = PageRequest.of(page, length);
+        MemberSearchType memberSearchType = MemberSearchType.from(datatablePayload.getSearchType());
+        String keyword = datatablePayload.getSearchValue();
         //조회했을 때의 전체 페이지 수
-        int total = memberQueryRepository.findCountByColumnsArrayPageable(memberSearchType, keyword).intValue();
+        long total = memberQueryRepository.findCountByColumnsArrayPageable(memberSearchType, keyword).intValue();
         //조회했을 때의 데이터
-        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(memberSearchType, keyword, columnIndex, orderDirection, pageable);
+        PageImpl<Member> data = memberQueryRepository.findAllColumnsArrayPageable(memberSearchType, keyword, datatablePayload.getColumnIndex(), datatablePayload.getOrderDirection(), pageable);
 
 
         return responseDto.builder()
-                .draw(draw)
+                .draw(datatablePayload.getDraw())
                 .recordsTotal(total)
                 .recordsFilterd(total)
                 .data(data.getContent())
                 .build();
     }
-
-    private int getPage(int start, int length) {
-        return start / length;
-    }
-
     public MemberRegionChartResponseDto findAllGroupByRegion() {
         List<RegionCount> regionCountList = memberRepository.countMemberByRegionInterface();
         List<String> regionList = regionCountList.stream().map(r->r.getRegion()).collect(Collectors.toList());
@@ -108,4 +93,5 @@ public class MemberService {
         MemberRegionChartResponseDto responseDto = new MemberRegionChartResponseDto(regionList,countList);
         return responseDto;
     }
+
 }

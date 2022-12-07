@@ -1,6 +1,8 @@
 package com.jirandata.group;
 
 import com.jirandata.group.dtos.*;
+import com.jirandata.group.repository.GroupQueryRepository;
+import com.jirandata.group.repository.GroupRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

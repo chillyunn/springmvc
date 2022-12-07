@@ -1,8 +1,8 @@
-package com.jirandata.group;
+package com.jirandata.group.repository;
 
+import com.jirandata.group.QGroup;
 import com.jirandata.group.dtos.GroupListResponseDto;
 import com.jirandata.group.dtos.QGroupListResponseDto;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

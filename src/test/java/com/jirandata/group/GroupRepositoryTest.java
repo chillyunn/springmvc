@@ -1,5 +1,6 @@
 package com.jirandata.group;
 
+import com.jirandata.group.repository.GroupRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

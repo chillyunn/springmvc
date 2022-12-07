@@ -35,5 +35,50 @@
     display: flex;
 }
 #agentTable{
-    width:850px;
+    width:1000px !important;
+}
+.policy-wrap{
+    margin-top:1rem;
+}
+#policyTable{
+    width:1000px !important;
+}
+#groupNametable{
+    width: 300px;
+}
+#agentNameTable{
+    width: 300px;
+}
+#agentSelectTable{
+    width: 465px !important;
+}
+#policy-tab-pane{
+    justify-content: center;
+}
+.policy-name-wrapper{
+    display: flex;
+    justify-content: space-between;
+}
+.policy-name-wrapper > h5{
+    display: flex;
+    align-items: center;
+}
+#inputPolicyName{
+    width: 80%;
+}
+.policy-target-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+.policy-modal-content{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+#inputPolicyName{
+    margin-bottom: .5rem;
+}
+#checkboxCol{
+    text-align: center;
+    vertical-align: middle;
 }

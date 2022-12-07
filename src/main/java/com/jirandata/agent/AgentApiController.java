@@ -21,7 +21,7 @@ public class AgentApiController {
     }
     @PostMapping("/api/agents")
     public DataTableResponseDto findAllAgentsByGroup(@RequestBody MultiValueMap<String,String> map){
-        log.info("agent 조회");
+        log.info("agent 조회 요청");
         return agentService.findAllAgentsByGroup(map);
     }
     @PutMapping("/api/agent/{id}")

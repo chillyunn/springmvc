@@ -1,8 +1,10 @@
-package com.jirandata.agent;
+package com.jirandata.agent.repository;
 
+import com.jirandata.agent.QAgent;
 import com.jirandata.agent.dtos.AgentListResponseDto;
 import com.jirandata.agent.dtos.QAgentListResponseDto;
 import com.jirandata.group.Group;
+import com.jirandata.group.QGroup;
 import com.jirandata.util.OrderDirection;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.Wildcard;
@@ -21,10 +23,12 @@ import static com.jirandata.util.QueryBuildUtils.nullSafeBuilder;
 public class AgentQueryRepository {
     private final JPAQueryFactory queryFactory;
     QAgent agent = QAgent.agent;
-
+    QGroup group = QGroup.group;
     public Long findAgentCountByGroup(Group parent){
         return queryFactory.select(Wildcard.count)
                 .from(agent)
+                .innerJoin(agent.group,group)
+                .fetchJoin()
                 .where(parentEqChildrenIn(parent))
                 .fetchFirst();
     }
@@ -42,6 +46,7 @@ public class AgentQueryRepository {
         if (parent ==null){
             return parentEq(null);
         }
+        parent.getChildrens().stream().forEach(System.out::println);
         return parentEq(parent).or(childrenIn(parent.getChildrens()));
     }
     private BooleanBuilder parentEq(Group parent){

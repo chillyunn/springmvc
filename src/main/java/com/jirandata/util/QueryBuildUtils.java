@@ -10,7 +10,7 @@ public final class QueryBuildUtils {
     public static BooleanBuilder nullSafeBuilder(Supplier<BooleanExpression> f){
         try{
             return new BooleanBuilder(f.get());
-        }catch (IllegalArgumentException e){
+        }catch (IllegalArgumentException | NullPointerException e){
             return new BooleanBuilder();
         }
     }

@@ -3,233 +3,9 @@ $(function () {
     initializeAgentTable();
     addGroupTreeEventListener();
     addAgentTableEventListener();
-    $('a[data-bs-target="#organization-tab-pane"]').on('shown.bs.tab', function () {
-        $('#policyTable').DataTable().destroy();
-    });
-    $('a[data-bs-target="#policy-tab-pane"]').on('shown.bs.tab', function () {
-        $('#policyTable').DataTable({
-            columnDefs:[{
-                orderable: false,
-                className: 'select-checkbox',
-                targets: 0,
-                defaultContent: ''
-            }],
-            select:{
-                style: 'os',
-                selector: 'td:first-child'
-            },
-            order: [[1,'asc']],
-            serverSide: true,
-            processing: true,
-            searching: false,
-            ajax: {
-                url: 'api/policies',
-                type: 'POST',
-                data: function (d) {
-                    d.searchType = "",
-                        d.searchValue = ""
-                }
-            },
-            columns:[
-                {data: null},
-                {data: 'id'},
-                {data: 'name'},
-                {data: 'content'},
-                {data: 'createdAt'},
-                {data: 'modifiedAt'},
-            ],
-            initComplete:function(){
-                $('#checkAll').prop("checked",false);
-                $('#checkAll').click(function(){
-                    if($(this).prop("checked")){
-                        $('#policyTable').DataTable().rows().select();
-                    }
-                    else{
-                        $('#policyTable').DataTable().rows().deselect();
-                    }
-                })
-            },
-            rowId: function(a){
-                return a.id;
-            }
-    });
-    $('#btnShowPolicyCreateModal').on('click', function () {
-        $("#policyModal").modal('show');
-        $("#inputPolicyName").val('');
-        $('#policyContent').val('');
-
-        $("#groupNameTable").DataTable({
-            searching: false,
-            ordering: false,
-            info: false,
-            paging: false,
-            destroy: true,
-            columns: [
-                {data: 'name'}
-            ]
-        })
-        $("#groupNameTable").DataTable().clear().draw();
-        $('#groupNameTable tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            } else {
-                $("#groupNameTable").DataTable().$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        });
-        $('#btnDeselectGroup').click(function () {
-            $("#groupNameTable").DataTable().row('.selected').remove().draw(false);
-        });
-        $("#agentNameTable").DataTable({
-            searching: false,
-            ordering: false,
-            info: false,
-            paging: false,
-            destroy: true,
-            columns: [
-                {data: 'name'}
-            ]
-        })
-        $("#agentNameTable").DataTable().clear().draw();
-        $('#agentNameTable tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            } else {
-                $("#agentNameTable").DataTable().$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        });
-        $('#btnDeselectAgent').click(function () {
-            $("#agentNameTable").DataTable().row('.selected').remove().draw(false);
-        });
-        $("#policyModalLabel").html("정책 추가");
-
-    })
-    $('#btnShowGroupTreeModal').on('click', function () {
-        $('#policyTargetSelectModal').modal('show');
-        $('#agentSelectTableWrapper').css('display', 'none');
-        $('#groupSelectTree').css('display', 'block');
-        $('#groupSelectTree').jstree({
-            core: {
-                data: getGroupList()
-            },
-        })
-    })
-
-    $('#btnShowAgentTableModal').on('click', function () {
-        $('#policyTargetSelectModal').modal('show');
-        $('#agentSelectTableWrapper').css('display', 'block');
-        //$('#groupSelectTree').jstree('destroy');
-        $('#groupSelectTree').css('display', 'none');
-        $('#agentSelectTable').DataTable({
-            serverSide: true,
-            processing: true,
-            searching: false,
-            destroy: true,
-            ajax: {
-                url: 'api/agents',
-                type: 'POST',
-                data: function (d) {
-                    d.searchType = "",
-                        d.searchValue = "",
-                        d.group = getSelectedNodeName() ? getSelectedNodeName() : null
-                }
-            },
-            columns: [
-                {data: 'name'},
-                {data: 'groupName'},
-            ]
-        });
-        $('#agentSelectTable tbody').on('click', 'tr', function () {
-            $('#policyTargetSelectModal').modal('hide');
-            $('#agentSelectTable tbody').off('click');
-            const data = $('#agentSelectTable').DataTable().row(this).data();
-            $('#agentNameTable').DataTable().row.add({
-                "name": data.name
-            }).draw();
-
-        });
-    });
-
+    addTabEventListener();
+    addPolicyTableEvnetListner();
 });
-$('#btnDeletePolicy').on('click',function(){
-    const ids = $('#policyTable').DataTable().rows('.selected').ids().toArray();
-    $.ajax({
-        type: "DELETE",
-        contentType: 'application/json',
-        url: "/api/policies",
-        data: ids,
-        error: function (e) {
-            console.log(e);
-        },
-        success: function () {
-        }
-    })
-})
-$('#groupSelectTree').on("select_node.jstree", function (e, data) {
-    $('#policyTargetSelectModal').modal('hide');
-
-    $('#groupNameTable').DataTable().row.add({
-        "name": data.node.text
-    }).draw();
-});
-
-$('#btnConfirmCreatePolicy').on('click', function () {
-    const groups = [];
-    const agents = [];
-    for (const i of $('#groupNameTable').DataTable().rows().data().toArray()) {
-        groups.push(i.name);
-    }
-    for (const i of $('#agentNameTable').DataTable().rows().data().toArray()) {
-        agents.push(i.name);
-    }
-    const policy = JSON.stringify({
-        name: $("#inputPolicyName").val(),
-        content: $('#policyContent').val(),
-        groups: groups,
-        agents: agents,
-    });
-    $.ajax({
-        type: "POST",
-        contentType: 'application/json',
-        url: "/api/policy",
-        data: policy,
-        error: function (e) {
-            console.log(e);
-        },
-        success: function () {
-            refreshGroupTree();
-        }
-    })
-});
-$('#agentNameTable').on('click', function () {
-    if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-    } else {
-        $('#agentNameTable').DataTable().$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-    }
-})
-$('#groupNameTable').on('click', function () {
-    if ($(this).hasClass('selected')) {
-        $(this).removeClass('selected');
-    } else {
-        $('#groupNameTable').DataTable().$('tr.selected').removeClass('selected');
-        $(this).addClass('selected');
-    }
-})
-$('#btnDeselectGroup').on('click', function () {
-    if ($('#groupNameTable').hasClass('selected')) {
-        $('#groupNameTable').DataTable().row('.selected').remove().draw(false);
-    }
-})
-$('#btnDeselectAgent').on('click', function () {
-    if ($('#agentNameTable').hasClass('selected')) {
-        $('#agentNameTable').DataTable().row('.selected').remove().draw(false);
-    }
-})
-})
-;
 
 function getGroupList() {
     let result;
@@ -294,6 +70,10 @@ function refreshGroupTree() {
     $('#groupTree').jstree(true).refresh();
 }
 
+function refreshPolicyTable() {
+    $('#policyTable').DataTable().ajax.reload();
+}
+
 function refreshAgentTable() {
     $('#agentTable').DataTable().ajax.reload();
 }
@@ -317,6 +97,7 @@ function createGroup() {
         }
     })
 }
+
 function updateGroup(id) {
     const group = JSON.stringify({
         name: $("#inputGroupName").val(),
@@ -504,7 +285,6 @@ function updateAgent(id) {
             refreshAgentTable();
         }
     })
-
 }
 
 function getSelectedRowId() {
@@ -538,5 +318,237 @@ function addAgentTableEventListener() {
             $(this).addClass('selected');
         }
     });
+};
+
+function initializePolicyTable() {
+    $('#policyTable').DataTable({
+        columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox',
+            targets: 0,
+            defaultContent: ''
+        }],
+        select: {
+            style: 'os',
+            selector: 'td:first-child'
+        },
+        order: [[1, 'asc']],
+        serverSide: true,
+        processing: true,
+        searching: false,
+        ajax: {
+            url: 'api/policies',
+            type: 'POST',
+            data: function (d) {
+                d.searchType = "",
+                    d.searchValue = ""
+            }
+        },
+        columns: [
+            {data: null},
+            {data: 'id'},
+            {data: 'name'},
+            {data: 'content'},
+            {data: 'createdAt'},
+            {data: 'modifiedAt'},
+        ],
+        initComplete: function () {
+            $('#checkAll').prop("checked", false);
+            $('#checkAll').click(function () {
+                if ($(this).prop("checked")) {
+                    $('#policyTable').DataTable().rows().select();
+                } else {
+                    $('#policyTable').DataTable().rows().deselect();
+                }
+            })
+        },
+        rowId: function (a) {
+            return a.id;
+        }
+    });
 }
 
+function addPolicyTableEvnetListner() {
+    $('#btnDeletePolicy').on('click', function () {
+        const ids = JSON.stringify($('#policyTable').DataTable().rows('.selected').ids().toArray());
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/api/policies/delete",
+            data: ids,
+            error: function (e) {
+                console.log(e);
+            },
+            success: function () {
+                refreshPolicyTable();
+            }
+        })
+    })
+    $('#groupSelectTree').on("select_node.jstree", function (e, data) {
+        $('#policyTargetSelectModal').modal('hide');
+
+        $('#groupNameTable').DataTable().row.add({
+            "name": data.node.text
+        }).draw();
+    });
+
+    $('#btnConfirmCreatePolicy').on('click', function () {
+        const groups = [];
+        const agents = [];
+        for (const i of $('#groupNameTable').DataTable().rows().data().toArray()) {
+            groups.push(i.name);
+        }
+        for (const i of $('#agentNameTable').DataTable().rows().data().toArray()) {
+            agents.push(i.name);
+        }
+        const policy = JSON.stringify({
+            name: $("#inputPolicyName").val(),
+            content: $('#policyContent').val(),
+            groups: groups,
+            agents: agents,
+        });
+        $.ajax({
+            type: "POST",
+            contentType: 'application/json',
+            url: "/api/policy",
+            data: policy,
+            error: function (e) {
+                console.log(e);
+            },
+            success: function () {
+                refreshPolicyTable();
+            }
+        })
+    });
+    $('#agentNameTable').on('click', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            $('#agentNameTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    })
+    $('#groupNameTable').on('click', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            $('#groupNameTable').DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    })
+    $('#btnDeselectGroup').on('click', function () {
+        if ($('#groupNameTable').hasClass('selected')) {
+            $('#groupNameTable').DataTable().row('.selected').remove().draw(false);
+        }
+    })
+    $('#btnDeselectAgent').on('click', function () {
+        if ($('#agentNameTable').hasClass('selected')) {
+            $('#agentNameTable').DataTable().row('.selected').remove().draw(false);
+        }
+    })
+    $('#btnShowAgentTableModal').on('click', function () {
+        $('#policyTargetSelectModal').modal('show');
+        $('#agentSelectTableWrapper').css('display', 'block');
+        //$('#groupSelectTree').jstree('destroy');
+        $('#groupSelectTree').css('display', 'none');
+        $('#agentSelectTable').DataTable({
+            serverSide: true,
+            processing: true,
+            searching: false,
+            destroy: true,
+            ajax: {
+                url: 'api/agents',
+                type: 'POST',
+                data: function (d) {
+                    d.searchType = "",
+                        d.searchValue = "",
+                        d.group = getSelectedNodeName() ? getSelectedNodeName() : null
+                }
+            },
+            columns: [
+                {data: 'name'},
+                {data: 'groupName'},
+            ]
+        });
+        $('#agentSelectTable tbody').on('click', 'tr', function () {
+            $('#policyTargetSelectModal').modal('hide');
+            $('#agentSelectTable tbody').off('click');
+            const data = $('#agentSelectTable').DataTable().row(this).data();
+            $('#agentNameTable').DataTable().row.add({
+                "name": data.name
+            }).draw();
+
+        });
+    });
+    $('#btnShowPolicyCreateModal').on('click', function () {
+        $("#policyModal").modal('show');
+        $("#inputPolicyName").val('');
+        $('#policyContent').val('');
+
+        $("#groupNameTable").DataTable({
+            searching: false,
+            ordering: false,
+            info: false,
+            paging: false,
+            destroy: true,
+            columns: [
+                {data: 'name'}
+            ]
+        })
+        $("#groupNameTable").DataTable().clear().draw();
+        $('#groupNameTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                $("#groupNameTable").DataTable().$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+        $('#btnDeselectGroup').click(function () {
+            $("#groupNameTable").DataTable().row('.selected').remove().draw(false);
+        });
+        $("#agentNameTable").DataTable({
+            searching: false,
+            ordering: false,
+            info: false,
+            paging: false,
+            destroy: true,
+            columns: [
+                {data: 'name'}
+            ]
+        });
+        $("#agentNameTable").DataTable().clear().draw();
+        $('#agentNameTable tbody').on('click', 'tr', function () {
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+            } else {
+                $("#agentNameTable").DataTable().$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        });
+        $('#btnDeselectAgent').click(function () {
+            $("#agentNameTable").DataTable().row('.selected').remove().draw(false);
+        });
+        $("#policyModalLabel").html("정책 추가");
+    });
+
+    $('#btnShowGroupTreeModal').on('click', function () {
+        $('#policyTargetSelectModal').modal('show');
+        $('#agentSelectTableWrapper').css('display', 'none');
+        $('#groupSelectTree').css('display', 'block');
+        $('#groupSelectTree').jstree({
+            core: {
+                data: getGroupList()
+            },
+        })
+    });
+};
+
+function addTabEventListener() {
+    $('a[data-bs-target="#organization-tab-pane"]').on('shown.bs.tab', function () {
+        $('#policyTable').DataTable().destroy();
+    });
+    $('a[data-bs-target="#policy-tab-pane"]').on('shown.bs.tab', function () {
+        initializePolicyTable();
+    });
+};

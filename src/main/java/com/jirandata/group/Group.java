@@ -70,6 +70,10 @@ public class Group {
         this.policy = policy;
         policy.getGroups().add(this);
     }
+    public void disapplyPolicy(){
+        this.policy.getGroups().remove(this);
+        this.policy=null;
+    }
 
     @Override
     public String toString() {

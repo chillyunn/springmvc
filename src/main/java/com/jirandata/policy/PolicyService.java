@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.MultiValueMap;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -62,9 +63,20 @@ public class PolicyService {
     }
 
     public void delete(List<Long> ids) {
-        List<Policy> policies = policyRepository.findAllByIds(ids);
-//        List<Group> groups = (List<Group>) policies.stream().map(p->p.groups);
-//        log.info("groups: {}",groups);
-        //policyRepository.deleteAllByIdInBatch(ids);
+        policyRepository.deleteAllByIdInBatch(ids);
+    }
+    public void disapplyPolicyBeforeDelete(List<Long> ids){
+        List<Policy> policies =policyRepository.findAllByIds(ids);
+        log.info("삭제 대상 정책: {}",policies);
+        List<Group> groups = policies.stream().map(Policy::getGroups).flatMap(List::stream).collect(Collectors.toList());
+        log.info("정책 해제 대상 그룹: {}",groups);
+        groups.forEach(group -> group.disapplyPolicy());
+        List<Agent> agents = policies.stream().map(Policy::getAgents).flatMap(List::stream).collect(Collectors.toList());
+        log.info("정책 해제 대상 에이전트: {}",agents);
+        agents.forEach(agent -> agent.disapplyPolicy());
+    }
+    @Transactional
+    public List<Policy> findAllByIds(List<Long> ids){
+        return policyRepository.findAllByIds(ids);
     }
 }

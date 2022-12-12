@@ -70,6 +70,10 @@ public class Agent extends BaseTimeEntity {
         this.policy=policy;
         policy.getAgents().add(this);
     }
+    public void disapplyPolicy(){
+        this.policy.getAgents().remove(this);
+        this.policy=null;
+    }
 
     @Override
     public String toString() {

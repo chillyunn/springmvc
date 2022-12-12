@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface PolicyRepository extends JpaRepository<Policy,Long> {
-//    @QueryHints(@QueryHint(name=org.hibernate.annotations.P))
     @Query("select distinct p from Policy p join fetch p.groups where p.id in (:ids)")
     List<Policy> findAllByIds(@Param("ids")List<Long> ids);
 

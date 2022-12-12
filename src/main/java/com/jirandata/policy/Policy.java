@@ -31,11 +31,11 @@ public class Policy extends BaseTimeEntity {
 
     @BatchSize(size = 1000)
     @JsonIgnore
-    @OneToMany(mappedBy = "policy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "policy", fetch = FetchType.LAZY)
     List<Group> groups = new ArrayList<>();
     @BatchSize(size = 1000)
     @JsonIgnore
-    @OneToMany(mappedBy = "policy", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "policy", fetch = FetchType.LAZY)
     List<Agent> agents = new ArrayList<>();
 
     @Builder
@@ -57,4 +57,11 @@ public class Policy extends BaseTimeEntity {
         return Objects.hash(id, name, content, groups, agents);
     }
 
+    @Override
+    public String toString() {
+        return "Policy{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", content='" + content + '\'' + '}';
+    }
 }

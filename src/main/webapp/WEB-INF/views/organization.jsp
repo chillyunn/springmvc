@@ -26,7 +26,6 @@
     <script defer src="plugins/dataTables-1.12.1/dataTables.select.min.js"></script>
     <script defer src="plugins/bootstrap-5.2.0/bootstrap.min.js"></script>
     <script defer src="plugins/jstree-3.3.12/jstree.min.js"></script>
-    <script defer src="plugins/icheck-1.0.3/icheck.min.js"></script>
     <script defer src="js/organization.js"></script>
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>

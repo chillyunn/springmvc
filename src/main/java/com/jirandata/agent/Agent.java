@@ -74,6 +74,9 @@ public class Agent extends BaseTimeEntity {
         this.policy.getAgents().remove(this);
         this.policy=null;
     }
+    public void transfer(Group group){
+        this.group=group;
+    }
 
     @Override
     public String toString() {

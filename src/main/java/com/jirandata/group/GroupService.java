@@ -1,5 +1,7 @@
 package com.jirandata.group;
 
+import com.jirandata.agent.Agent;
+import com.jirandata.agent.repository.AgentRepository;
 import com.jirandata.group.dtos.*;
 import com.jirandata.group.repository.GroupQueryRepository;
 import com.jirandata.group.repository.GroupRepository;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 @Service
 public class GroupService {
     private final GroupRepository groupRepository;
+    private final AgentRepository agentRepository;
     private final GroupQueryRepository groupQueryRepository;
 
     @Transactional
@@ -29,16 +32,20 @@ public class GroupService {
     @Transactional
     public Long update(Long id, GroupUpdateRequestDto requestDto){
         Group group = groupRepository.findById(id).orElseThrow(()->new IllegalArgumentException("존재하지 않는 그룹입니다."));
-        Group parent = groupRepository.findByName(requestDto.getParentName()).orElseThrow(()->new IllegalArgumentException("존재하지 않는 그룹이름"));
+        Group parent = groupRepository.findByName(requestDto.getParentName()).orElse(null);
         group.update(requestDto.getName(),parent,requestDto.getSort());
         groupRepository.save(group);
         return id;
     }
     @Transactional
     public void delete(Long id){
-        Group group = groupRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("존재하지 않는 그룹입니다."));
-        log.info("삭제 대상 그룹 확인: {}",group.toString());
-        groupRepository.delete(group);
+        Group defaultGroup = groupRepository.findByName("그룹미지정").orElseThrow(()->new IllegalStateException("그룹 미지정이 미존재"));
+        log.info("삭제 대상 그룹 ID: {}",id);
+        List<Agent> agents = agentRepository.findByGroupId(id);
+        for (Agent agent:agents){
+            agent.transfer(defaultGroup);
+        }
+        groupRepository.deleteById(id);
     }
     @Transactional(readOnly = true)
     public List<GroupResponseDto> findAll(){

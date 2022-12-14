@@ -4,7 +4,7 @@ $(function () {
     addGroupTreeEventListener();
     addAgentTableEventListener();
     addTabEventListener();
-    addPolicyTableEvnetListner();
+    addPolicyTableEventListner();
 });
 
 function getGroupList() {
@@ -70,25 +70,25 @@ function refreshGroupTree() {
     $('#groupTree').jstree(true).refresh();
 }
 
-function refreshPolicyTable() {
-    $('#policyTable').DataTable().ajax.reload();
+function refreshTable(datatable) {
+    datatable.ajax.reload();
 }
 
-function refreshAgentTable() {
-    $('#agentTable').DataTable().ajax.reload();
-}
-
-function createGroup() {
+function getGroup() {
     const group = JSON.stringify({
         name: $("#inputGroupName").val(),
         parentName: $("#inputParentGroupName").val(),
         sort: $("#inputSortValue").val()
     });
+    return group;
+}
+
+function createGroup() {
     $.ajax({
         type: "POST",
         contentType: 'application/json',
         url: "/api/group",
-        data: group,
+        data: getGroup(),
         error: function (e) {
             console.log(e);
         },
@@ -99,16 +99,11 @@ function createGroup() {
 }
 
 function updateGroup(id) {
-    const group = JSON.stringify({
-        name: $("#inputGroupName").val(),
-        parentName: $("#inputParentGroupName").val(),
-        sort: $("#inputSortValue").val()
-    });
     $.ajax({
         type: "PUT",
         contentType: 'application/json',
         url: "/api/group/" + id,
-        data: group,
+        data: getGroup(),
         error: function (e) {
             console.log(e);
         },
@@ -119,27 +114,32 @@ function updateGroup(id) {
 }
 
 function initializeGroupCreationModal() {
-    showGroupModalAndChangeLabel("그룹 추가");
+    showModal($("#groupModal"), $("#groupModalLabel"), "그룹 추가");
+    //모달 내부 input 초기화
     $("#groupModal").find('input[type=text]').each(function () {
         $(this).val('');
     })
     $("#inputParentGroupName").val(getSelectedNodeName());
-
+    //모달의 확인 버튼의 id를 교체하여 추가/수정 시 같은 모달을 재사용한다.
     $("#btnConfirmUpdate")?.attr('id', 'btnConfirmCreation');
 }
 
 function initializeGroupUpdateModal() {
-    showGroupModalAndChangeLabel("그룹 수정");
-
-    $("#inputGroupName").val(getSelectedNodeName());
-    $("#inputParentGroupName").val(getSelectedNodeParentName());
-    $("#inputSortValue").val(getSelectedNodeSort());
-
+    const selectedNode = getSelectedNode();
+    if (!selectedNode) {
+        window.alert("대상을 선택하세요");
+        return;
+    }
+    showModal($("#groupModal"), $("#groupModalLabel"), "그룹 수정");
+    $("#inputGroupName").val(selectedNode.text);
+    $("#inputParentGroupName").val(selectedNode.parentName);
+    $("#inputSortValue").val(selectedNode.original.sort);
+    //모달의 확인 버튼의 id를 교체하여 추가/수정 시 같은 모달을 재사용한다.
     $("#btnConfirmCreation")?.attr('id', 'btnConfirmUpdate');
 }
 
 function initializeAgentCreationModal() {
-    showAgentModalAndChangeLabel("에이전트 추가")
+    showModal($("#agentModal"), $("#agentModalLabel"), "에이전트 추가");
     $("#agentModal").find('input[type=text]').each(function () {
         $(this).val('');
     })
@@ -148,13 +148,21 @@ function initializeAgentCreationModal() {
 }
 
 function initializeAgentUpdateModal() {
-    showAgentModalAndChangeLabel("에이전트 수정");
     const row = $("#agentTable").DataTable().row('.selected').data();
+    if (!row) {
+        window.alert("대상을 선택하세요");
+        return;
+    }
+    showModal($("#agentModal"), $("#agentModalLabel"), "에이전트 수정");
     $("#inputAgentName").val(row?.name);
     $("#inputAgentGroupName").val(row?.groupName);
     $("#inputIpValue").val(row?.ip);
     $("#inputMacValue").val(row?.mac);
     $("#btnConfirmCreateAgent")?.attr('id', 'btnConfirmUpdateAgent');
+}
+
+function getSelectedNode() {
+    return $('#groupTree').jstree('get_selected', true)[0]
 }
 
 function getSelectedNodeId() {
@@ -165,18 +173,12 @@ function getSelectedNodeName() {
     return $('#groupTree').jstree('get_selected', true)[0]?.text;
 }
 
-function getSelectedNodeParentName() {
-    const parentId = $('#groupTree').jstree('get_selected', true)[0].parent
-
-    return $('#groupTree').jstree(true).get_node(parentId)?.text;
-}
-
-function getSelectedNodeSort() {
-    return $('#groupTree').jstree('get_selected', true)[0]?.original.sort;
-}
-
 function deleteGroup() {
     const id = getSelectedNodeId();
+    if (!id) {
+        window.alert("대상을 선택하세요");
+        return;
+    }
     $.ajax({
         type: "DELETE",
         contentType: 'application/json',
@@ -190,7 +192,12 @@ function deleteGroup() {
     })
 }
 
-function deleteAgent(id) {
+function deleteAgent() {
+    const id = getSelectedRowId();
+    if (!id) {
+        window.alert("대상을 선택하세요");
+        return;
+    }
     $.ajax({
         type: "DELETE",
         contentType: 'application/json',
@@ -199,7 +206,7 @@ function deleteAgent(id) {
             console.log(e);
         },
         success: function () {
-            refreshAgentTable();
+            refreshTable($('#agentTable').DataTable());
         }
     })
 }
@@ -213,14 +220,9 @@ function changeParentValueToHash(data) {
     return data;
 }
 
-function showGroupModalAndChangeLabel(label) {
-    $("#groupModal").modal('show');
-    $("#groupModalLabel").html(label)
-}
-
-function showAgentModalAndChangeLabel(label) {
-    $("#agentModal").modal('show');
-    $("#agentModalLabel").html(label);
+function showModal(modalId, labelId, text) {
+    modalId.modal('show');
+    labelId.html(text);
 }
 
 function addGroupTreeEventListener() {
@@ -261,7 +263,7 @@ function createAgent() {
             console.log(e);
         },
         success: function () {
-            refreshAgentTable();
+            refreshTable($('#agentTable').DataTable());
         }
     })
 }
@@ -282,13 +284,13 @@ function updateAgent(id) {
             console.log(e);
         },
         success: function () {
-            refreshAgentTable();
+            refreshTable($('#agentTable').DataTable());
         }
     })
 }
 
 function getSelectedRowId() {
-    return $("#agentTable").DataTable().row('.selected').data().id;
+    return $("#agentTable").DataTable().row('.selected').data()?.id;
 }
 
 function addAgentTableEventListener() {
@@ -308,7 +310,7 @@ function addAgentTableEventListener() {
         });
     });
     $('#btnDeleteAgent').on('click', function () {
-        deleteAgent(getSelectedRowId());
+        deleteAgent();
     })
     $('#agentTable tbody').on('click', 'tr', function () {
         if ($(this).hasClass('selected')) {
@@ -368,7 +370,7 @@ function initializePolicyTable() {
     });
 }
 
-function addPolicyTableEvnetListner() {
+function addPolicyTableEventListner() {
     $('#btnDeletePolicy').on('click', function () {
         const ids = JSON.stringify($('#policyTable').DataTable().rows('.selected').ids().toArray());
         $.ajax({
@@ -380,7 +382,7 @@ function addPolicyTableEvnetListner() {
                 console.log(e);
             },
             success: function () {
-                refreshPolicyTable();
+                refreshTable($('#policyTable').DataTable());
             }
         })
     })
@@ -416,7 +418,7 @@ function addPolicyTableEvnetListner() {
                 console.log(e);
             },
             success: function () {
-                refreshPolicyTable();
+                refreshTable($('#policyTable').DataTable());
             }
         })
     });
@@ -470,54 +472,16 @@ function addPolicyTableEvnetListner() {
                 {data: 'groupName'},
             ]
         });
-        $('#agentSelectTable tbody').on('click', 'tr', function () {
-            $('#policyTargetSelectModal').modal('hide');
-            $('#agentSelectTable tbody').off('click');
-            const data = $('#agentSelectTable').DataTable().row(this).data();
-            $('#agentNameTable').DataTable().row.add({
-                "name": data.name
-            }).draw();
-
-        });
     });
-    $('#btnShowPolicyCreateModal').on('click', function () {
+
+    function initializePolicyCreateModal() {
         $("#policyModal").modal('show');
+        $("#policyModalLabel").html("정책 추가");
         $("#inputPolicyName").val('');
         $('#policyContent').val('');
+    }
 
-        $("#groupNameTable").DataTable({
-            searching: false,
-            ordering: false,
-            info: false,
-            paging: false,
-            destroy: true,
-            columns: [
-                {data: 'name'}
-            ]
-        })
-        $("#groupNameTable").DataTable().clear().draw();
-        $('#groupNameTable tbody').on('click', 'tr', function () {
-            if ($(this).hasClass('selected')) {
-                $(this).removeClass('selected');
-            } else {
-                $("#groupNameTable").DataTable().$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-            }
-        });
-        $('#btnDeselectGroup').click(function () {
-            $("#groupNameTable").DataTable().row('.selected').remove().draw(false);
-        });
-        $("#agentNameTable").DataTable({
-            searching: false,
-            ordering: false,
-            info: false,
-            paging: false,
-            destroy: true,
-            columns: [
-                {data: 'name'}
-            ]
-        });
-        $("#agentNameTable").DataTable().clear().draw();
+    function addPolicyCreateModalEventListener() {
         $('#agentNameTable tbody').on('click', 'tr', function () {
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
@@ -529,19 +493,88 @@ function addPolicyTableEvnetListner() {
         $('#btnDeselectAgent').click(function () {
             $("#agentNameTable").DataTable().row('.selected').remove().draw(false);
         });
-        $("#policyModalLabel").html("정책 추가");
+    }
+
+    $('#btnShowPolicyCreateModal').on('click', function () {
+        initializePolicyCreateModal();
+        initializeGroupNameTable();
+        initializeAgentNameTable();
+        addPolicyCreateModalEventListener();
     });
 
     $('#btnShowGroupTreeModal').on('click', function () {
-        $('#policyTargetSelectModal').modal('show');
-        $('#agentSelectTableWrapper').css('display', 'none');
-        $('#groupSelectTree').css('display', 'block');
-        $('#groupSelectTree').jstree({
-            core: {
-                data: getGroupList()
-            },
-        })
+        function initializeGroupTreeModal() {
+            $('#policyTargetSelectModal').modal('show');
+            $('#agentSelectTableWrapper').css('display', 'none');
+            $('#groupSelectTree').css('display', 'block');
+            $('#groupSelectTree').jstree({
+                core: {
+                    data: getGroupList()
+                },
+            })
+        }
+
+        initializeGroupTreeModal();
+
+        // $('#groupNameTable tbody').on('click', 'tr', function () {
+        //     function selectTableRow(datatable) {
+        //         if ($(this).hasClass('selected')) {
+        //             $(this).removeClass('selected');
+        //         } else {
+        //             datatable.$('tr.selected').removeClass('selected');
+        //             $(this).addClass('selected');
+        //         }
+        //     }
+        //     selectTableRow($("#groupNameTable").DataTable());
+        // });
     });
+    $('#groupNameTable tbody').on('click', 'tr', function () {
+        if ($(this).hasClass('selected')) {
+            $(this).removeClass('selected');
+        } else {
+            $("#groupNameTable").DataTable().$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    });
+    $('#btnDeselectGroup').click(function () {
+        $("#groupNameTable").DataTable().row('.selected').remove().draw(false);
+    });
+    $('#agentSelectTable tbody').on('click', 'tr', function () {
+        $('#policyTargetSelectModal').modal('hide');
+        const data = $('#agentSelectTable').DataTable().row(this).data();
+        $('#agentNameTable').DataTable().row.add({
+            "name": data.name
+        }).draw();
+    });
+
+    function initializeGroupNameTable() {
+        $("#groupNameTable").DataTable({
+            searching: false,
+            ordering: false,
+            info: false,
+            paging: false,
+            destroy: true,
+            columns: [
+                {data: 'name'}
+            ]
+        })
+        $("#groupNameTable").DataTable().clear().draw();
+    }
+
+    function initializeAgentNameTable() {
+        $("#agentNameTable").DataTable({
+            searching: false,
+            ordering: false,
+            info: false,
+            paging: false,
+            destroy: true,
+            columns: [
+                {data: 'name'}
+            ]
+        });
+
+        $("#agentNameTable").DataTable().clear().draw();
+    }
 };
 
 function addTabEventListener() {
